@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSA Admission</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 80px;
+      height: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #A51C30;
+      margin-bottom: 20px;
+    }
+
+    .rules {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .rules ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .rules li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .download-section {
+      text-align: center;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #A51C30;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .download-btn:hover {
+      background-color: #831524;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #A51C30;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #831524;
+      transform: scale(1.05);
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-top: 40px;
+      color: #555;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+    <button class="back-btn" onclick="window.location.replace('index.html')">← Back to Home</button>
+
+
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA Logo" class="logo">
+    <h1>CSA Admission Guidelines</h1>
+
+    <div class="rules">
+      <h3>Admission Rules:</h3>
+      <ul>
+        <li>Admissions open for Grades 6 to 12.</li>
+        <li>Students seeking admission must submit the completed form along with:
+          <ul>
+            <li>Copy of birth certificate</li>
+            <li>Recent passport-size photograph</li>
+            <li>Transfer certificate from the previous school</li>
+            <li>Academic report card of the last year</li>
+          </ul>
+        </li>
+        <li>An entrance test will be conducted for Grades 9 and above.</li>
+        <li>Parents must accompany the student for document verification.</li>
+        <li>School reserves the right to approve or deny admissions based on merit and seat availability.</li>
+        <li>Original documents must be shown at the time of final admission.</li>
+        <li>Forms submitted without required documents will not be processed.</li>
+        <li>Students must comply with the school’s discipline and attendance rules.</li>
+        <li>Fees must be paid at the time of confirmation of admission.</li>
+        <li>CSA believes in equal opportunity and does not discriminate based on gender, caste, or background.</li>
+      </ul>
+    </div>
+
+    <div class="download-section">
+      <h3>Download Admission Form</h3>
+      <a href="downloads/admission-form.pdf" class="download-btn" download>Download Form</a>
+    </div>
+
+    <div class="contact-info">
+      <p>For queries, contact our admin office at: <strong>+91-12345-67890</strong><br>
+      or email us at <strong>info@csacademy.edu.in</strong></p>
+    </div>
+  </div>
+
+</body>
+</html>
