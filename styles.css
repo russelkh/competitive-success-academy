@@ -952,3 +952,45 @@ html {
     opacity: 1 !important;
   }
 }
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text, .about-image {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-image img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+  }
+}
+@media (max-width: 768px) {
+  .about-carousel {
+    height: 250px; /* Reduce height on mobile */
+  }
+
+  .about-carousel .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .about-carousel .slide.active {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .about-carousel .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
