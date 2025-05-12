@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Competitive Success Academy</title>
+        
+        <!-- Preconnect to Google Fonts for better performance -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        
+        <!-- Link to local styles.css using Flask's url_for -->
+        <link rel="stylesheet" href="../static/styles.css">
+
+    </head>
+    
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA Logo" class="logo">
+                <h1 class="school-name">Competitive Success Academy</h1>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#achievements">Achievements</a></li>
+                    <li><a href="#faculties">Faculties</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="{{ url_for('admission') }}">Admission</a></li>
+
+                    
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section id="home"class="hero">
+        <div class="hero-overlay"></div>
+        <a href="{{ url_for('album') }}" class="btn btn-album">View Album</a>
+
+        <div class="hero-content">
+            <h2 class="hero-title">Welcome to CSA</h2>
+            <p class="hero-subtitle">Empowering Excellence</p>
+            <a href="{{ url_for('admission') }}" class="btn btn-primary">Apply Now</a>
+
+
+        </div>
+    </section>
+
+    <section id= "about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About CSA</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Competitive Success Academy is a premier educational institution dedicated to nurturing young minds and preparing them for the challenges of tomorrow. Founded in 1995, our academy has consistently ranked among the top schools in the region.</p>
+                    <p>Our mission is to provide a holistic education that combines academic rigor with character development. We believe in fostering critical thinking, creativity, and compassion in all our students.</p>
+                    <p>With state-of-the-art facilities and a faculty of distinguished educators, CSA offers an unparalleled learning environment. Our alumni have gone on to excel in diverse fields, from medicine and engineering to arts and public service.</p>
+                    <p>At CSA, we don't just teach subjects - we teach students how to learn, adapt, and thrive in an ever-changing world. Our unique curriculum blends traditional values with innovative teaching methodologies.</p>
+                </div>
+                <div class="about-image">
+                    <div class="about-image carousel">
+                        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa_about.jpeg" class="carousel-img active" alt="CSA Campus 1"> 
+                        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20about%20probable%202.jpeg" class="carousel-img" alt="CSA Campus 2">
+                        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20about%20probable%203.jpeg" class="carousel-img" alt="CSA Campus 3">
+                        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/about%204.jpeg" class="carousel-img" alt="CSA Campus 4">
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+   <!-- Heads Section -->
+   <section class="heads-section" id="heads">
+    <h2 class="section-title">Meet Our Heads</h2>
+    <div class="heads-container">
+      <div class="head-card left">
+        <div class="head-image" data-popup="popup-right">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head.jpeg" alt="Head 1" />
+        </div>
+        <div class="head-name"><h1> Mohendra Singh</h1></div>
+        <div class="head-role">Founder & Chairperson, Competitive Success Academy</div>
+      </div>
+  
+      <div class="head-card middle">
+        <div class="head-image" data-popup="popup-tooltip">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head2.jpeg" alt="Head 2" />
+          <div class="tooltip-popup">
+            <h1>Tokpam Khelendro</h1>
+            <p>Principal of CSA with 20+ years in education leadership, curriculum design, and academic innovation.</p>
+          </div>
+        </div>
+        <div class="head-name"><h1>Tokpam Khelendro</h1></div>
+        <div class="head-role">Secretary, Competitive Success Academy</div>
+      </div>
+  
+      <div class="head-card right">
+        <div class="head-image" data-popup="popup-left">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head3.png" alt="Head 3" />
+        </div>
+        <div class="head-name"><h1>DR. K . Nabachandra Sharma</h1></div>
+        <div class="head-role"></div>
+      </div>
+    </div>
+  
+    <!-- Slide-in Panels -->
+    <div id="popup-right" class="head-popup popup-right">
+      <h3>Ch. Mohendra Singh</h3>
+      <p>The core purpose of education is to provide children with a learning environment which brings out the best in them. We believe that every child is endowed with a unique setoff attributes and abilities, which need to be nurtured so that they blossom.
+
+        At Competitive Success Academy, we provide a learning environment that inspires and motivates children, and encourages them to explore limitless possibilities in their quest for knowledge. 
+       
+       Our caring and committed teachers are our pillars of strength. They teach our children not just with their minds but with their hearts. They make learning enjoyable and rewarding, and imbibe in children the importance of sound values. Our excellent educational programs are complemented by state-of-the art facilities and reasons and our focus on sports and co-curricular opportunities facilities children’s holistic education.
+       
+        I warmly invite you to explore Competitive Success Academy as we re-dedicate ourselves everyday, to impart the very best education to young minds.</p>
+    </div>
+  
+    <div id="popup-left" class="head-popup popup-left">
+      <h3> DR. K . NABACHANDRA SHARMA</h3>
+      <p>First of all, I congratulate the students who have passed the Class X Board Examination (BSEM, CBSE & other boards) of 2021 and have chosen the Competitive Success Academy to study in Class XI.
+
+        During such hard times toiling whilst the pandemic, it is understandably hard for the students community to keep in time with academic atmosphere. Nevertheless it becomes indispensable to carry forward with academic curriculum through any possible means like electronic learning, online class and assessments.
+      
+        I hope and wish that the school has undertaken tremendous efforts to serve the interests for the students and teachers in such time.
+      
+         I wish the school the very best in all the future events and projects. Lastly but not least I urge upon to maintain proper, safe and necessary healthy measures as education in not possible without health.</p>
+    </div>
+  </section>
+  
+  
+ 
+  
+   
+    <section id= "achievements"class="hall-of-fame">
+        <div class="container">
+            <h2 class="section-title">Hall of Fame</h2>
+            <div class="toppers-container">
+                <div class="topper-card">
+                    <div class="rank-badge">8th Position</div>
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state--1.png" alt="Topper 1">
+                    <h3></h3>
+                    <p>Class of 2023 - 98.6%</p>
+                </div>
+                <div class="topper-card">
+                    <div class="rank-badge">17 Position</div>
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state-2.png" alt="Topper 2">
+                    <h3>Jennifer Park</h3>
+                    <p>Class of 2023 - 97.8%</p>
+                </div>
+                <div class="topper-card">
+                    <div class="rank-badge">19th Position</div>
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state-3.png" alt="Topper 3">
+                    <h3>Maibam Puja Devi</h3>
+                    <p>Class of 2023 - HSE</p>
+                </div>
+                <div class="topper-card">
+                    <div class="rank-badge">4th Position</div>
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state4.png" alt="Topper 4">
+                    <h3>Emily Chen</h3>
+                    <p>Class of 2023 - 96.9%</p>
+                </div>
+                <div class="topper-card">
+                    <div class="rank-badge">5th Position</div>
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state5.png" alt="Topper 5">
+                    <h3>James Wilson</h3>
+                    <p>Class of 2023 - 96.5%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faculties"class="faculties-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Faculties</h2>
+            <div class="faculties-grid">
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Salam%20Yaiphabi%20Devi.jpeg" alt="Faculty 1">
+                    <h3>Salam Yaiphabi Devi</h3>
+                    <p class="subject">Mathematics</p>
+                    <p class="qualification">M.Sc Mathematics</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Thongam%20Dineshor%20Singh.jpeg" alt="Faculty 2">
+                    <h3>Thongam Dineshor Singh</h3>
+                    <p class="subject">Mathematics</p>
+                    <p class="qualification">Lecturer M.Sc Mathematics B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Bandana%20Chongtham.jpeg" alt="Faculty 3">
+                    <h3>Bandan Chongtham</h3>
+                    <p class="subject">English</p>
+                    <p class="qualification">Vice-Principal (Lecturer M.A English)</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Eskara%20Chongtham.jpeg" alt="Faculty 4">
+                    <h3>Eskara Chongtham</h3>
+                    <p class="subject">English</p>
+                    <p class="qualification">M.A English B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Gautam%20Singh%20Yandrembam.jpeg"alt="Faculty 5">
+                    <h3>Gautam Singh Yandrembam</h3>
+                    <p class="subject">English Literature</p>
+                    <p class="qualification">M.A English B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Ngangom%20Pintu.jpeg" alt="Faculty 6">
+                    <h3>Ngangom Pintu</h3>
+                    <p class="subject">Manipuri</p>
+                    <p class="qualification">M.A Manipuri B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Vidyalaxmi%20Chingsubam.jpeg" alt="Faculty 6">
+                    <h3>Vidyalaxmi Chingsubam</h3>
+                    <p class="subject">Manipuri</p>
+                    <p class="qualification">M.A Manipuri </p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Priyabati%20Laishram.jpeg" alt="Faculty 6">
+                    <h3>priyabarti Laishram</h3>
+                    <p class="subject">Physics</p>
+                    <p class="qualification">M.Sc Physic B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yandrembam%20Amita%20Devi.jpeg" alt="Faculty 6">
+                    <h3>Yandrembam Amita Devi</h3>
+                    <p class="subject">Physics</p>
+                    <p class="qualification">M.Sc Physics B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yumnam%20Yaikhomba%20Meitei.jpeg" alt="Faculty 6">
+                    <h3>Yumnam Yaikhomba Meitei</h3>
+                    <p class="subject">Chemistry</p>
+                    <p class="qualification">M.Sc Chemistry B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Irom%20Sonali.jpeg" alt="Faculty 6">
+                    <h3>Irom Sonali</h3>
+                    <p class="subject">Chemistry</p>
+                    <p class="qualification">M.Sc Chemistry</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Dr%20Khaidem%20Binky.jpeg" alt="Faculty 6">
+                    <h3>Dr. Khaidem Binky</h3>
+                    <p class="subject">zoology</p>
+                    <p class="qualification">Former Lecturer (Zoology) COMET School</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Thounaojam%20Rameshori.jpeg" alt="Faculty 6">
+                    <h3>Thounaojam Rameshori</h3>
+                    <p class="subject">Biology</p>
+                    <p class="qualification">M.Sc Biology, B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Duanthaolu%20Dangmei.jpeg" alt="Faculty 6">
+                    <h3>Duanthaolu Dangmei</h3>
+                    <p class="subject">Biology</p>
+                    <p class="qualification">M.Sc Biology, B.Ed</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Omega%20Oinam.jpeg" alt="Faculty 6">
+                    <h3>Omega Oinam</h3>
+                    <p class="subject">Biology</p>
+                    <p class="qualification">M.Sc Biology</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Devika%20Ahanthem.jpeg" alt="Faculty 6">
+                    <h3>Devika Ahanthem</h3>
+                    <p class="subject"> Human Ecology and Family Sciences</p>
+                    <p class="qualification">Lecturer of Human Ecology and Family Sciences</p>
+                </div>
+                <div class="faculty-card">
+                    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yumanam%20Moni.jpeg" alt="Faculty 6">
+                    <h3>Yumanam Moni</h3>
+                    <p class="subject"> Human Ecology and Family Sciences</p>
+                    <p class="qualification">Lecturer of Human Ecology and Family Sciences</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="ad-section">
+        <h2 class="section-title">Updates </h2>
+        <div class="ad-container">
+           
+            <div class="ad-image left-ad"></div>
+            <div class="ad-video">
+                <div class="video-wrapper">
+                  <video id="csa-video" playsinline preload="none" poster="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/ad%20video%20thumbnail.jpeg">
+                    <source src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20ad%20video%20.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                  <div class="custom-play-button" id="customPlay"></div>
+                </div>
+              </div>
+              
+            <div class="ad-image right-ad"></div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.6519951445784!2d93.92928160000001!3d24.8073673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3749275e5b29f41f%3A0x72f30dd55f9606fd!2sCompetitive%20Success%20Academy!5e0!3m2!1sen!2sin!4v1746529040649!5m2!1sen!2sin" width=100% height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact"class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61559971550361" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@competitivesuccess.edu</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Education Avenue, Academic City, AC 12345</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Competitive Success Academy. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

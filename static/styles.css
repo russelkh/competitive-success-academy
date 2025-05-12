@@ -1,0 +1,996 @@
+/* Global Styles */
+:root {
+  --primary-color: #a51c30; /* Harvard-like red */
+  --secondary-color: #222;
+  --light-color: #f8f8f8;
+  --dark-color: #333;
+  --text-color: #444;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(165, 28, 48, 0.2);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  padding: 15px 0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.school-name {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.nav-menu ul {
+  display: flex;
+  list-style: none;
+}
+
+.nav-menu li {
+  margin-left: 30px;
+  position: relative;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--dark-color);
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.nav-menu a.active,
+.nav-menu a:hover {
+  color: var(--primary-color);
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: var(--transition);
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+  width: 100%;
+}
+
+.mobile-menu-btn {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 15px; /* Add this line */
+  padding: 10px; /* Add this for better touch area */
+}
+/* Hero Section */
+.hero {
+  height: 100vh;
+  min-height: 600px;
+  background: url('https://cdn.jsdelivr.net/gh/russelkh/school-media@main/images%20copy/school%20banner%201.jpeg') no-repeat center center / cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  margin-top: 80px;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: -10;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  animation: fadeIn 2.5s ease-in-out;
+}
+
+.btn-album {
+  position: absolute;
+  top: 100px; /* Position below header */
+  right: 30px;
+  z-index: 5; /* Lower than logo (z-index: 1000 in your header) */
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600; /* Better readability */
+}
+
+.btn-album:hover {
+  background-color: white;
+  color: var(--primary-color); /* Uses your red color variable */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+  .btn-album {
+    top: 70px !important; /* Further lowered for mobile */
+    right: auto !important;
+    left: 20px !important; /* Moves to left side */
+    padding: 8px 16px;
+    font-size: 14px; /* Better fit for mobile */
+    z-index: 5; /* Ensures it stays below logo */
+  }
+}
+.btn-album:hover {
+  background-color: white;
+  color: red; /* hover text becomes red */
+  border-color: red;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5); /* red 3D effect */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* About Section */
+.about-image.carousel {
+  position: relative;
+  height: 300px; /* Fixed height */
+  min-height: unset; /* Remove this */
+  overflow: hidden; /* Add this */
+}
+
+@media (max-width: 768px) {
+  .about-image.carousel {
+    height: 250px !important;
+    margin-bottom: 20px;
+  }
+  .carousel-img {
+    opacity: 1 !important;
+  }
+}
+.about-section {
+  padding: 80px 0;
+  background-color: var(--light-color);
+}
+
+.about-content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.about-text {
+  flex: 1;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 20px;
+}
+
+.about-text p {
+  margin-bottom: 20px;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  width: 120%;
+  height: 400px; /* Match text box height */
+  object-fit: cover; /* Prevent distortion */
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.carousel {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.about-image.carousel {
+  position: relative;
+  flex: 1;
+  height: 400px; /* Reserve space */
+}
+
+.carousel-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Fill parent */
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+
+.carousel-img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Heads Section - Circular Images with 3D Hover */
+.heads-section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.heads-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  gap: 10px;
+}
+
+.head-card {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+
+.head-image {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid var(--primary-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Tooltip for middle image */
+.tooltip-popup {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: black;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.head-card.middle .head-image:hover .tooltip-popup {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide-in Panels */
+.head-popup {
+  position: fixed;
+  background: white;
+  color: black;
+  padding: 30px;
+  width: 50vw;
+  height: calc(100vh - 100px);
+  top: 100px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* Left triggers right panel */
+.popup-right {
+  right: 0;
+  transform: translateX(100%);
+}
+.head-card.left .head-image:hover ~ #popup-right {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Right triggers left panel */
+.popup-left {
+  left: 0;
+  transform: translateX(-100%);
+}
+.head-card.right .head-image:hover ~ #popup-left {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.head-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+
+
+
+
+/* Hall of Fame Section */
+.hall-of-fame {
+  padding: 80px 0;
+  background-color: var(--light-color);
+}
+
+.toppers-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.topper-card {
+  flex: 0 0 calc(20% - 20px);
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: var(--transition);
+}
+
+.topper-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.topper-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.topper-card:hover img {
+  transform: scale(1.05);
+}
+
+.topper-card h3 {
+  font-size: 1.2rem;
+  padding: 15px 15px 5px;
+  color: var(--secondary-color);
+}
+
+.topper-card p {
+  padding: 0 15px 15px;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+/* Faculties Section */
+.faculties-section {
+  padding: 80px 0;
+}
+
+.faculties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.faculty-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: 25px 15px;
+  transition: var(--transition);
+}
+
+.faculty-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.faculty-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid var(--primary-color);
+}
+
+.faculty-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--secondary-color);
+}
+
+.faculty-card .subject {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.faculty-card .qualification {
+  font-size: 0.9rem;
+  color: #666;
+}
+/*adsectiom*/
+.ad-section {
+  padding: 50px 0;
+  background-color: var(--light-color);
+}
+
+.ad-container {
+  display: flex;
+  align-items: center;
+}
+
+.ad-image {
+  flex: 1.25; /* Images now wider */
+  height: 500px; /* Taller posters */
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.left-ad {
+  background-image: url('https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/2025%20ad%20for%20csa.jpeg');
+}
+
+.right-ad {
+  background-image: url('https://cdn.jsdelivr.net/gh/russelkh/school-media/images%20copy/2024%20ad.jpeg');
+}
+
+.ad-video {
+  flex: 1.5;
+  padding: 0 20px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Prevents overflow if aspect ratio varies */
+}
+
+.ad-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video fills the box beautifully */
+  border-radius: 12px;
+  box-shadow: var(--shadow); /* Keep your existing shadow variable */
+}
+
+
+
+.ad-video iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.video-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+  z-index: 10;
+  pointer-events: none; /* Doesn't block clicks */
+}
+
+
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.custom-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.6) url('https://img.icons8.com/ios-filled/50/ffffff/play.png') center center no-repeat;
+  background-size: 32px 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.custom-play-button:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
+
+/* Map Section */
+.map-section {
+  padding: 80px 0;
+  background-color: var(--light-color);
+}
+
+.map-container {
+  margin-top: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 60px 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.social-links {
+  display: flex;
+  gap: 50px;
+}
+
+.social-icon {
+  color: white;
+  font-size: 1.5rem;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.social-icon:hover {
+  color: var(--primary-color);
+  transform: scale(1.2);
+  text-shadow: 0 0 10px rgba(165, 28, 48, 0.7);
+  filter: drop-shadow(0 0 8px rgba(165, 28, 48, 0.6));
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: var(--primary-color);
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .faculties-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .topper-card {
+    flex: 0 0 calc(33.33% - 20px);
+  }
+}
+
+@media (max-width: 992px) {
+  .about-content {
+    flex-direction: column;
+  }
+  
+  .about-text {
+    max-height: none;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+  
+  .heads-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .head-card {
+    flex: 0 0 calc(50% - 30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background-color: white;
+    transition: var(--transition);
+    padding: 40px 20px;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  .nav-menu ul {
+    flex-direction: column;
+  }
+  
+  .nav-menu li {
+    margin: 15px 0;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .head-card {
+    flex: 0 0 100%;
+  }
+  
+  .topper-card {
+    flex: 0 0 calc(50% - 20px);
+  }
+  
+  .faculties-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+  
+  .contact-info {
+    text-align: center;
+  }
+  
+  .ad-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .ad-image {
+    height: 150px;
+  }
+  
+  .ad-video {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .topper-card {
+    flex: 0 0 100%;
+  }
+  
+  .faculties-grid {
+    grid-template-columns: 1fr;
+  }
+}
+html {
+  scroll-behavior: smooth;
+}
+/* --- ORIGINAL STYLES --- */
+/* ... your existing styles go here ... */
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 768px) {
+  /* 📌 Fix menu button spacing */
+  .mobile-menu-btn {
+    margin-left: 16px;
+  }
+
+  /* 📌 Fix About section carousel visibility */
+  .about-image.carousel {
+    position: relative !important;
+    min-height: 300px !important;
+  }
+
+  .carousel-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 📌 Adjust "Back to Home" button on album & admission pages */
+  .back-home {
+    margin-top: 60px;
+    margin-left: 10px;
+    z-index: 10;
+    position: relative;
+  }
+
+  /* 📌 Improve overall section padding */
+  section, .section {
+    padding: 20px 10px;
+  }
+
+  /* 📌 Ensure images scale properly */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* Mobile Popup Fixes */
+@media (max-width: 768px) {
+  .head-popup {
+    width: 90vw !important;
+    height: auto !important;
+    max-height: 80vh;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    padding: 20px;
+  }
+  
+  .head-card .head-image {
+    pointer-events: auto !important;
+  }
+  
+  /* Close button for mobile */
+  .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+}
+/* Makes carousel transitions smooth */
+.carousel-img {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* Ensures mobile visibility */
+@media (max-width: 768px) {
+  .carousel-img {
+    opacity: 1 !important;
+  }
+}
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text, .about-image {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-image img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+  }
+}
+@media (max-width: 768px) {
+  .about-carousel {
+    height: 250px; /* Reduce height on mobile */
+  }
+
+  .about-carousel .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .about-carousel .slide.active {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .about-carousel .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSA School Album</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      overflow-x: hidden;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #A51C30;
+      border-radius: 30px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+      z-index: 10;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .back-btn:hover {
+      background-color: #911625;
+      transform: scale(1.05);
+    }
+
+    .logo {
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+    .logo img {
+      max-height: 80px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 10px 0 40px;
+      color: #333;
+    }
+
+    .carousel-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel-item-wrapper {
+      min-width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .carousel-item {
+      position: relative;
+      width: 85%;
+      height: 500px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(0.85);
+      transform-origin: center center;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    /* Active slide: zoom image from center */
+    .carousel-item-wrapper.active .carousel-item img {
+      transform: scale(1);
+    }
+
+    .caption {
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-align: center;
+      transition: bottom 0.8s ease-in-out;
+    }
+
+    /* Caption slides up for active slide */
+    .carousel-item-wrapper.active .caption {
+      bottom: 0;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      padding: 5px 15px;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s;
+      z-index: 5;
+    }
+    .nav-btn:hover { background-color: #ddd; }
+    .nav-btn.left { left: 10px; }
+    .nav-btn.right { right: 10px; }
+
+    @media screen and (max-width: 600px) {
+      .carousel-item {
+        height: 300px;
+      }
+    }
+    @media screen and (max-width: 600px) {
+  .logo {
+    margin-top: 80px; /* or more if needed to clear the button */
+  }
+}
+
+  </style>
+</head>
+<body>
+  <a href="{{ url_for('index') }}" class="back-btn">← Back to Home</a>
+  <div class="logo">
+    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA School Logo">
+  </div>
+  <h2>CSA School Memories</h2>
+  <div class="carousel-container">
+    <button class="nav-btn left" onclick="prevSlide()">&#10094;</button>
+    <div class="carousel" id="carousel">
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/topper%20speech.jpeg" alt= "Topper Speech">
+          <div class="caption">State Topper's speech at CSA Felicitation event</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/candle%20lighthing2025.jpeg" alt="candle lighting2025">
+          <div class="caption">Candle Lighting ceremony for the year 2025 felicitation program</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/president-speech.jpeg" alt="president-speech">
+          <div class="caption">President giving speech on the felicitaion of the year 2025</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="images/album4.jpg" alt="Sports">
+          <div class="caption">CSA Sports Meet</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="images/album5.jpg" alt="Farewell">
+          <div class="caption">Farewell Party Moments</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="images/album6.jpg" alt="Classroom">
+          <div class="caption">Classroom Activities</div>
+        </div>
+      </div>
+      <div class="carousel-item-wrapper">
+        <div class="carousel-item">
+          <img src="images/album7.jpg" alt="Independence Day">
+          <div class="caption">CSA Independence Day Celebration</div>
+        </div>
+      </div>
+    </div>
+    <button class="nav-btn right" onclick="nextSlide()">&#10095;</button>
+  </div>
+  <script>
+    const carousel = document.getElementById('carousel');
+    const wrappers = document.querySelectorAll('.carousel-item-wrapper');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+      wrappers.forEach((w, i) => w.classList.toggle('active', i === currentIndex));
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % wrappers.length;
+      updateCarousel();
+    }
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + wrappers.length) % wrappers.length;
+      updateCarousel();
+    }
+
+    window.addEventListener('load', updateCarousel);
+  </script>
+</body>
+</html>
