@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}{{ layout.site_name }}{% endblock %}</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="{{ layout.logo_url }}" alt="CSA Logo" class="logo" />
+        <h1 class="school-name">{{ layout.site_name }}</h1>
+      </div>
+      <nav class="nav-menu">
+        <ul>
+          {% for link in layout.nav_links %}
+            {% if link.type == 'endpoint' %}
+              <li><a href="{{ url_for(link.url) }}">{{ link.label }}</a></li>
+            {% elif link.type == 'anchor' %}
+              <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
+      <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+    </div>
+  </header>
+
+  <!-- Main Page Content -->
+  {% block content %}{% endblock %}
+
+  <!-- Footer (only if not admission or album pages) -->
+  {% if request.endpoint not in ['admission', 'album'] %}
+  <footer id="contact" class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="social-links">
+          <a href="{{ layout.footer.social_links.facebook }}" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="{{ layout.footer.social_links.twitter }}" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="{{ layout.footer.social_links.instagram }}" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> {{ layout.footer.contact_email }}</p>
+          <p><i class="fas fa-phone"></i> {{ layout.footer.contact_phone }}</p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ layout.footer.contact_address }}</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>{{ layout.footer.copyright }}</p>
+      </div>
+    </div>
+  </footer>
+  {% endif %}
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
