@@ -271,8 +271,8 @@ h1, h2, h3, h4 {
 .about-image.carousel {
   position: relative;
   height: 300px; /* Fixed height */
-  min-height: unset; /* Remove this */
-  overflow: hidden; /* Add this */
+  min-height: unset;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -284,6 +284,7 @@ h1, h2, h3, h4 {
     opacity: 1 !important;
   }
 }
+
 .about-section {
   padding: 80px 0;
   background-color: var(--light-color);
@@ -312,11 +313,12 @@ h1, h2, h3, h4 {
 
 .about-image img {
   width: 120%;
-  height: 400px; /* Match text box height */
-  object-fit: cover; /* Prevent distortion */
+  height: 400px;
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
+
 .carousel {
   position: relative;
   width: 100%;
@@ -327,27 +329,43 @@ h1, h2, h3, h4 {
 .about-image.carousel {
   position: relative;
   flex: 1;
-  height: 400px; /* Reserve space */
+  height: 400px;
 }
 
+/* 🔄 Carousel images */
 .carousel-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; /* Fill parent */
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
   box-shadow: var(--shadow);
   opacity: 0;
   transition: opacity 1s ease-in-out;
   z-index: 0;
+  animation: none;
 }
 
 .carousel-img.active {
   opacity: 1;
   z-index: 1;
+  animation: fadeIn 1s ease-in-out;
 }
+
+/* 🔁 Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
 /* Heads Section - Circular Images with 3D Hover */
 .heads-section {
@@ -516,6 +534,43 @@ h1, h2, h3, h4 {
   font-weight: 600;
   font-size: 0.8rem;
 }
+@media (max-width: 768px) {
+  .toppers-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .topper-card {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .topper-card img {
+    height: 180px;
+    object-fit: cover;
+    object-position: top; /* Shows the top of the image */
+  }
+
+  .topper-card h3 {
+    font-size: 1rem;
+    padding: 12px 12px 4px;
+  }
+
+  .topper-card p {
+    font-size: 0.9rem;
+    padding: 0 12px 12px;
+  }
+
+  .rank-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    top: 8px;
+    left: 8px;
+  }
+}
+
 
 /* Faculties Section */
 .faculties-section {
@@ -669,6 +724,125 @@ h1, h2, h3, h4 {
 
 .custom-play-button:hover {
   background-color: rgba(255, 0, 0, 0.8);
+}
+/* --- AD SECTION --- */
+.ad-section {
+  padding: 50px 0;
+  background-color: var(--light-color);
+}
+
+.ad-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* POSTER IMAGE BASE */
+.ad-image {
+  flex: 1.25;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: slideInAd 0.8s forwards;
+}
+
+/* INDIVIDUAL ENTRIES */
+.left-ad {
+  background-image: url('https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/2025%20ad%20for%20csa.jpeg');
+  animation-delay: 0.2s;
+}
+.right-ad {
+  background-image: url('https://cdn.jsdelivr.net/gh/russelkh/school-media/images%20copy/2024%20ad.jpeg');
+  animation-delay: 0.4s;
+}
+
+/* HOVER EFFECT */
+.ad-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ANIMATION */
+@keyframes slideInAd {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* VIDEO SECTION */
+.ad-video {
+  flex: 1.5;
+  padding: 0 20px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.video-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.ad-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+/* PLAY BUTTON */
+.custom-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.6) url('https://img.icons8.com/ios-filled/50/ffffff/play.png') center center no-repeat;
+  background-size: 32px 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.custom-play-button:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
+/* 📱 MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .ad-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ad-image {
+    width: 100%;
+    height: 300px;
+  }
+
+  .ad-video {
+    width: 100%;
+    padding: 0;
+    height: auto;
+  }
+
+  .video-wrapper {
+    height: 250px;
+  }
 }
 
 
@@ -946,14 +1120,14 @@ html {
 }
 
 
-/* Ensures mobile visibility */
-@media (max-width: 768px) {
-  .carousel-img {
-    opacity: 1 !important;
-  }
-}
+/* === Mobile Responsive Carousel === */
 @media (max-width: 768px) {
   .about-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-content {
     flex-direction: column;
     align-items: center;
   }
@@ -963,34 +1137,165 @@ html {
     text-align: center;
   }
 
-  .about-image img {
-    max-width: 90%;
-    height: auto;
-    display: block;
-    margin: 20px auto;
-  }
-}
-@media (max-width: 768px) {
-  .about-carousel {
-    height: 250px; /* Reduce height on mobile */
+  .about-text {
+    padding-right: 0;
+    width: 100%;
   }
 
-  .about-carousel .slide {
+  .about-image.carousel {
+    width: 90%;
+    height: 250px;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  .carousel-img {
     position: absolute;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+    animation: none; /* Default state */
   }
 
-  .about-carousel .slide.active {
+  .carousel-img.active {
     opacity: 1;
     z-index: 2;
+    animation: fadeIn 1s ease-in-out;
   }
+}
 
-  .about-carousel .slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* 🔄 Animation for Carousel Fade */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
   }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+.subject-toppers-section {
+  padding: 60px 0;
+  background-color: var(--light-color);
+}
+
+.year-tabs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.year-tab {
+  padding: 10px 20px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.year-tab.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.year-toppers {
+  display: none;
+  justify-content: center;
+}
+
+.year-toppers.active {
+  display: flex;
+}
+
+.topper-year-card {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  max-width: 500px;
+  width: 100%;
+}
+
+.topper-year-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.topper-year-card h3 {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+}
+
+.topper-year-card p {
+  color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: 8px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+.admin-access {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.admin-button {
+  display: inline-block;
+  background-color: #b30000;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-button:hover {
+  background-color: #8c0000;
+  transform: scale(1.05);
 }
