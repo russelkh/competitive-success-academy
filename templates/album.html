@@ -6,11 +6,25 @@
   <title>CSA School Album</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
-      overflow-x: hidden;
-    }
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  /* Use local file path */
+  background: url('/static/background-image\ for\ album.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+/* White overlay for better readability */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.70); /* Adjust opacity as needed */
+  z-index: -1;
+}
 
     .back-btn {
       position: fixed;
@@ -66,16 +80,21 @@
       align-items: center;
       position: relative;
     }
-
+    /* Default height (for larger screens) */
     .carousel-item {
       position: relative;
-      width: 85%;
-      height: 500px;
+      width: 90%;
+      height: 550px; /* Increased from 500px */
       overflow: hidden;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-
+    /* Mobile responsiveness */
+    @media screen and (max-width: 600px) {
+      .carousel-item {
+        height: 400px; /* Increased from 300px */
+      }
+    }
     .carousel-item img {
       width: 100%;
       height: 100%;
@@ -83,13 +102,20 @@
       transform: scale(0.85);
       transform-origin: center center;
       transition: transform 0.8s ease-in-out;
+    }/* First image should always be full size (no scaling) */
+    .carousel-item-wrapper:first-child .carousel-item img {
+    transform: scale(1);
     }
 
-    /* Active slide: zoom image from center */
-    .carousel-item-wrapper.active .carousel-item img {
-      transform: scale(1);
+    /* Active state for other images */
+    .carousel-item-wrapper.active:not(:first-child) .carousel-item img {
+    transform: scale(1);
     }
 
+    /* Caption transition for all */
+    .carousel-item-wrapper.active .caption {
+    bottom: 0;
+    }
     .caption {
       position: absolute;
       bottom: -50px;
@@ -124,8 +150,8 @@
       z-index: 5;
     }
     .nav-btn:hover { background-color: #ddd; }
-    .nav-btn.left { left: 10px; }
-    .nav-btn.right { right: 10px; }
+    .nav-btn.left { left: 5px; }
+    .nav-btn.right { right: 5px; }
 
     @media screen and (max-width: 600px) {
       .carousel-item {
@@ -136,6 +162,26 @@
   .logo {
     margin-top: 80px; /* or more if needed to clear the button */
   }
+}
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 10px auto 40px; /* 'auto' for horizontal centering */
+  color: #333;
+  padding-bottom: 10px;
+  position: relative;
+  width: fit-content; /* Ensures underline matches text width */
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%; /* Full width of text */
+  height: 4px;
+  background-color: #A51C30; /* CSA red */
+  border-radius: 2px;
 }
 
   </style>
@@ -149,49 +195,16 @@
   <div class="carousel-container">
     <button class="nav-btn left" onclick="prevSlide()">&#10094;</button>
     <div class="carousel" id="carousel">
-      <div class="carousel-item-wrapper">
+      {% for image in album.images %}
+      <div class="carousel-item-wrapper" id="album-{{ image.id }}">
         <div class="carousel-item">
-          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/topper%20speech.jpeg" alt= "Topper Speech">
-          <div class="caption">State Topper's speech at CSA Felicitation event</div>
+          <img src="{{ image.image }}" alt="{{ image.caption }}">
+          <div class="caption">{{ image.caption }}</div>
         </div>
       </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/candle%20lighthing2025.jpeg" alt="candle lighting2025">
-          <div class="caption">Candle Lighting ceremony for the year 2025 felicitation program</div>
-        </div>
-      </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/president-speech.jpeg" alt="president-speech">
-          <div class="caption">President giving speech on the felicitaion of the year 2025</div>
-        </div>
-      </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="images/album4.jpg" alt="Sports">
-          <div class="caption">CSA Sports Meet</div>
-        </div>
-      </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="images/album5.jpg" alt="Farewell">
-          <div class="caption">Farewell Party Moments</div>
-        </div>
-      </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="images/album6.jpg" alt="Classroom">
-          <div class="caption">Classroom Activities</div>
-        </div>
-      </div>
-      <div class="carousel-item-wrapper">
-        <div class="carousel-item">
-          <img src="images/album7.jpg" alt="Independence Day">
-          <div class="caption">CSA Independence Day Celebration</div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
+    
     <button class="nav-btn right" onclick="nextSlide()">&#10095;</button>
   </div>
   <script>
