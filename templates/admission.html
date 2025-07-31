@@ -139,21 +139,22 @@
     }
 
     .feature-card {
-      background: #fff;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s ease;
-    }
+  background: #e6e6e6; /* Light soft grey */
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 
     .feature-card i {
       font-size: 28px;
@@ -192,70 +193,106 @@
       transform: scale(1.05);
     }
 
-    /* Media Queries for Mobile */
-    @media screen and (max-width: 900px) {
-      .admission-section,
-      .hostel-section {
-        flex-direction: column;
-      }
+   /* ---- FIXED HOSTEL SECTION LAYOUT ---- */
+.hostel-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
 
-      .rules-box {
-        max-height: none;
-        padding: 20px;
-      }
+.carousel-box {
+  flex: 1;
+  max-width: 50%;
+}
 
-      .form-btn-container {
-        width: 100%;
-        margin-top: 20px;
-      }
+.features-box {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px; /* Increased from 20px */
+}
 
-      .hostel-section {
-        gap: 20px;
-      }
 
-      .carousel-box {
-        flex: 1;
-      }
+/* ---- FEATURE CARD BASE SIZE ---- */
+.feature-card {
+  width: 100%;
+  max-width: 100%;
+  padding: 16px;               /* Inner space inside the card */
+  margin-bottom: 16px;         /* Space between rows (optional) */
+  box-shadow: var(--shadow);   /* Optional: add shadow for better visuals */
+  border-radius: 8px;          /* Optional: smooth corners */
+  background-color: white;     /* Optional: contrast from background */
+}
 
-      .features-box {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
 
-      .feature-card {
-        padding: 15px;
-        font-size: 12px;
-      }
+/* ---- INTERACTIVE MODE (Tablet & Below) ---- */
+@media screen and (max-width: 900px) {
+  .hostel-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px; /* prevents edge contact */
+  }
 
-      .apply-btn {
-        padding: 10px 20px;
-        font-size: 16px;
-      }
-    }
+  .carousel-box {
+    width: 100%;
+    max-width: 100%;
+  }
+  .features-box {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  justify-items: center; /* keeps cards centered */
+}
 
-    @media screen and (max-width: 600px) {
-      .logo {
-        width: 80px;
-      }
+.feature-card {
+  padding: 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 160px;
+}
 
-      h1 {
-        font-size: 24px;
-      }
+  .apply-btn {
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+}
 
-      .back-btn {
-        font-size: 14px;
-        padding: 8px 15px;
-      }
 
-      .feature-card {
-        padding: 10px;
-        font-size: 12px;
-      }
+/* ---- MOBILE PHONES (600px ↓) ---- */
+@media screen and (max-width: 600px) {
+  .logo {
+    width: 80px;
+  }
 
-      .apply-btn {
-        font-size: 14px;
-      }
-    }
+  h1 {
+    font-size: 24px;
+  }
+
+  .back-btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  .features-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-card {
+    padding: 10px;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .apply-btn {
+    font-size: 14px;
+  }
+}
+
   /* Modal Styles */
 .modal {
   display: none;
@@ -342,87 +379,105 @@
   .modal-content .half-width {
     width: 50%;
   }
+  @keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.checkmark-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.checkmark-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #A51C30;
+  position: relative;
+  animation: pop 0.5s ease;
+}
+
+.checkmark-stem, .checkmark-kick {
+  position: absolute;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.checkmark-stem {
+  width: 20px;
+  left: 25px;
+  top: 40px;
+  transform: rotate(-45deg);
+}
+
+.checkmark-kick {
+  width: 35px;
+  left: 35px;
+  top: 35px;
+  transform: rotate(45deg);
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
 
   </style>
 </head>
 <body>
-
-<a class="back-btn" href="{{ url_for('index') }}">Home</a>
-
-<div class="container">
-  <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA Logo" class="logo">
-
-  <h1>CSA Admission Portal</h1>
-
-  <div class="admission-section">
-    <div class="rules-box">
-      <h3>Admission Rules:</h3>
-      <ul>
-        <li>Admissions open for Grades 6 to 12.</li>
-        <li>Submit completed form with:
+    <a class="back-btn" href="{{ url_for('index') }}">Home</a>
+  
+    <div class="container">
+      <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA Logo" class="logo">
+      <h1>CSA Admission Portal</h1>
+  
+      <div class="admission-section">
+        <div class="rules-box">
+          <h3>Admission Rules:</h3>
           <ul>
-            <li>Birth certificate</li>
-            <li>Passport-size photo</li>
-            <li>Transfer certificate</li>
-            <li>Last year's report card</li>
+            {% for rule in admission_section.rules %}
+            <li id="rule-{{ rule.id }}">{{ rule.text }}</li>
+          {% endfor %}
+          
           </ul>
-        </li>
-        <li>Entrance test for Grades 9–12.</li>
-        <li>Parents must attend verification.</li>
-        <li>Seats based on merit and availability.</li>
-        <li>Originals must be presented for final admission.</li>
-        <li>Incomplete forms will be rejected.</li>
-        <li>Discipline and attendance mandatory.</li>
-        <li>Fee payment required on confirmation.</li>
-        <li>CSA promotes equal opportunity for all students.</li>
-      </ul>
-    </div>
+        </div>
+  
+        <div class="form-btn-container">
+          <button class="apply-btn" onclick="showSchoolForm()">Apply for School</button>
+        </div>
+      </div>
+  
+      <h2 style="color:#A51C30; margin-bottom: 20px;">CSA Hostel Features</h2>
+      <div class="hostel-section">
+        <div class="carousel-box">
+          <div class="carousel-images">
+            {% for img_url in hostel_album %}
+             <img src="{{ img_url }}" alt="CSA Hostel Image">
+           {% endfor %}
 
-    <div class="form-btn-container">
-      <button class="apply-btn" onclick="showSchoolForm()">Apply for School</button>
-
-    </div>
-  </div>
-
-  <h2 style="color:#A51C30; margin-bottom: 20px;">CSA Hostel Features</h2>
-  <div class="hostel-section">
-    <div class="carousel-box">
-      <div class="carousel-images">
-        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel1.jpg" alt="Hostel Image 1" />
-        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel2.jpg" alt="Hostel Image 2" />
-        <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel3.jpg" alt="Hostel Image 3" />
-      </div>
-      <button class="carousel-btn left" onclick="moveSlide(-1)">&#10094;</button>
-      <button class="carousel-btn right" onclick="moveSlide(1)">&#10095;</button>
-    </div>
-
-    <div class="features-box">
-      <div class="feature-card">
-        <i class="fas fa-bed"></i>
-        <p>Spacious AC Rooms</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-utensils"></i>
-        <p>Nutritious Meals</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-shield-alt"></i>
-        <p>24/7 Security</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-book-reader"></i>
-        <p>Evening Study Hours</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-wifi"></i>
-        <p>WiFi & Digital Learning</p>
-      </div>
-      <div class="feature-card">
-        <button class="apply-btn" onclick="showHostelForm()">Apply for Hostel</button>
+          </div>
+          <button class="carousel-btn left" onclick="moveSlide(-1)">&#10094;</button>
+          <button class="carousel-btn right" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+  
+        <div class="features-box">
+          {% for feature in hostel_features %}
+          <div class="feature-card" id="feature-{{ feature.id }}">
+            <i class="{{ feature.icon }}"></i>
+            <p>{{ feature.text }}</p>
+          </div>
+          {% endfor %}
+          <div class="feature-card">
+            <button class="apply-btn" onclick="showHostelForm()">Apply for Hostel</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  
 
 <script>
 // Initialize the carousel index
@@ -471,6 +526,17 @@ window.onclick = function(event) {
     event.target.style.display = "none";
   }
 }
+// Auto-show thank-you popup if redirected with #thankyou-popup
+window.onload = function () {
+  if (window.location.hash === '#thankyou-popup') {
+    openModal('thankyou-popup');
+    // Clean URL after 1 second
+    setTimeout(() => {
+      history.replaceState(null, null, window.location.pathname);
+    }, 1000);
+  }
+};
+
 </script>
 <!-- Admission Modal -->
 <div id="admissionModal" class="modal">
@@ -530,7 +596,7 @@ window.onclick = function(event) {
 <!-- Hostel Modal Only -->
 <div id="hostelModal" class="modal">
   <div class="modal-content">
-    <span class="close" onclick="closeHostelModal()">&times;</span>
+    <span class="close" onclick="closeModal('hostelModal')">&times;</span>
     <h2>Hostel Application Form</h2>
 
     <form action="/send_hostel_email" method="POST" enctype="multipart/form-data">
@@ -558,12 +624,31 @@ window.onclick = function(event) {
 
       <!-- Optional anti-bot and redirection -->
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="thankyou.html">
+      <input type="hidden" name="_next" value="#thankyou-popup">
+
 
       <button type="submit" class="submit-btn" style="width: 60%; margin: 20px auto 0; display: block;">Apply for Hostel</button>
     </form>
   </div>
 </div>
+<!-- Interactive Thank You Popup -->
+<div id="thankyou-popup" class="modal">
+  <div class="modal-content" style="text-align: center; animation: fadeIn 0.6s ease-out;">
+    <span class="close" onclick="closeModal('thankyou-popup')">&times;</span>
+
+    <div class="checkmark-wrapper">
+      <div class="checkmark-circle">
+        <div class="checkmark-stem"></div>
+        <div class="checkmark-kick"></div>
+      </div>
+    </div>
+
+    <h2 style="margin-top: 20px;">Thank You!</h2>
+    <p>Your application has been submitted successfully.</p>
+    <button onclick="closeModal('thankyou-popup')" style="margin-top: 25px; padding: 12px 28px; font-size: 16px; border-radius: 8px; background-color: #A51C30; color: white; border: none; cursor: pointer;">Close</button>
+  </div>
+</div>
+
 
 </body>
 </html>
