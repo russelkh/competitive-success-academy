@@ -12,45 +12,38 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
-  // === Heads Section Popups ===
-  const leftImage = document.querySelector('.head-card.left .head-image');
-  const rightImage = document.querySelector('.head-card.right .head-image');
-  const popupRight = document.getElementById('popup-right');
-  const popupLeft = document.getElementById('popup-left');
+  // ✅ Working Head Popup Hover Handling
 
-  if (leftImage && popupRight) {
-    leftImage.addEventListener('mouseenter', () => {
-      popupRight.style.opacity = '1';
-      popupRight.style.pointerEvents = 'auto';
-      popupRight.style.transform = 'translateX(0)';
-    });
-    leftImage.addEventListener('mouseleave', () => {
-      popupRight.style.opacity = '0';
-      popupRight.style.pointerEvents = 'none';
-      popupRight.style.transform = 'translateX(100%)';
-    });
-  }
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.head-image').forEach(image => {
+    const card = image.closest('.head-card');
+    if (!card) return;
 
-  if (rightImage && popupLeft) {
-    rightImage.addEventListener('mouseenter', () => {
-      popupLeft.style.opacity = '1';
-      popupLeft.style.pointerEvents = 'auto';
-      popupLeft.style.transform = 'translateX(0)';
-    });
-    rightImage.addEventListener('mouseleave', () => {
-      popupLeft.style.opacity = '0';
-      popupLeft.style.pointerEvents = 'none';
-      popupLeft.style.transform = 'translateX(-100%)';
-    });
-  }
+    const isLeft = card.classList.contains('left');
+    const isRight = card.classList.contains('right');
+    const popup = document.getElementById(isLeft ? 'popup-left' : (isRight ? 'popup-right' : ''));
 
-  // === Middle Head Tooltip ===
+    if (popup) {
+      image.addEventListener('mouseenter', () => {
+        popup.style.opacity = '1';
+        popup.style.pointerEvents = 'auto';
+        popup.style.transform = 'translateX(0)';
+      });
+      image.addEventListener('mouseleave', () => {
+        popup.style.opacity = '0';
+        popup.style.pointerEvents = 'none';
+        popup.style.transform = isLeft ? 'translateX(-100%)' : 'translateX(100%)';
+      });
+    }
+  });
+
   const middleImage = document.querySelector('.head-card.middle .head-image');
   const tooltip = middleImage ? middleImage.querySelector('.tooltip-popup') : null;
 
@@ -64,17 +57,18 @@ document.addEventListener('DOMContentLoaded', function () {
       tooltip.style.pointerEvents = 'none';
     });
   }
+});
+
+
 
   // === About Section Carousel ===
   const carousel = document.querySelector('.about-image.carousel');
   const images = document.querySelectorAll('.carousel-img');
-
   if (carousel && images.length > 0) {
     let currentIndex = 0;
     const transitionTime = 2500;
     let rotationInterval;
 
-    // Create dots
     const dotsContainer = document.createElement('div');
     dotsContainer.className = 'carousel-nav';
     carousel.appendChild(dotsContainer);
@@ -102,16 +96,12 @@ document.addEventListener('DOMContentLoaded', function () {
       goToImage(nextIndex);
     }
 
-    // Start rotation
     rotationInterval = setInterval(nextImage, transitionTime);
-
-    
   }
 
   // === Video Section ===
   const video = document.getElementById("csa-video");
   const playBtn = document.getElementById('customPlay');
-
   if (video && playBtn) {
     playBtn.addEventListener('click', () => {
       video.play();
@@ -121,14 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
     video.addEventListener('play', () => playBtn.style.display = 'none');
 
     video.addEventListener('click', () => {
-      if (video.paused) {
-        video.play();
-      } else {
-        video.pause();
-      }
+      video[video.paused ? 'play' : 'pause']();
     });
 
-    // Autoplay once using IntersectionObserver
     if (!sessionStorage.getItem('videoPlayed')) {
       const observer = new IntersectionObserver(
         entries => {
@@ -148,11 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-});
-
-// for subject toppers 
-document.addEventListener('DOMContentLoaded', () => {
-  // Switch Year Tabs
+  // === Subject Toppers ===
   const yearTabs = document.querySelectorAll('.year-tab');
   const yearToppers = document.querySelectorAll('.year-toppers');
 
@@ -172,10 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Modal Viewer
   const modal = document.getElementById('topper-modal');
   const modalImg = document.getElementById('modal-img');
-  const closeBtn = modal.querySelector('.close');
+  const closeBtn = modal?.querySelector('.close');
 
   document.querySelectorAll('.topper-year-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -185,12 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  closeBtn.addEventListener('click', () => {
+  closeBtn?.addEventListener('click', () => {
     modal.style.display = 'none';
     modalImg.src = '';
   });
 
-  modal.addEventListener('click', (e) => {
+  modal?.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.style.display = 'none';
       modalImg.src = '';
