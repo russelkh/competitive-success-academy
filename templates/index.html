@@ -43,12 +43,12 @@
   <div class="heads-container">
     {% for head in heads_section.cards %}
       <div class="head-card {{ head.side }}">
-        <div class="head-image" data-popup="{{ head.popup_id if head.popup_id else 'popup-tooltip' }}">
+        <div class="head-image" data-popup="popup-{{ head.side }}">
           <img src="{{ head.image }}" alt="Head {{ loop.index }}" />
           {% if head.side == 'middle' %}
             <div class="tooltip-popup">
               <h1>{{ head.name }}</h1>
-              <p>{{ head.tooltip_text }}</p>
+              <p>{{ head.popup_text }}</p>
             </div>
           {% endif %}
         </div>
@@ -58,13 +58,15 @@
     {% endfor %}
   </div>
 
-  {% for head in heads_section.cards if head.popup_id %}
-    <div id="{{ head.popup_id }}" class="head-popup {{ head.popup_id }}">
+  {% for head in heads_section.cards if head.popup_title and head.popup_text and head.side in ['left', 'right'] %}
+    <div id="popup-{{ head.side }}" class="head-popup popup-{{ head.side }}">
       <h3>{{ head.popup_title }}</h3>
       <p>{{ head.popup_text }}</p>
     </div>
   {% endfor %}
 </section>
+
+
 
 <!-- State Toppers -->
 <section id="achievements" class="hall-of-fame">
