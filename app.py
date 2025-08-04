@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 import uuid
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER'] = 'static/images'
+DATA_FILE = 'data/site_data.json'
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False
 
@@ -476,7 +477,8 @@ def add_faculty():
     try:
         site_data = load_site_data()
         existing_ids = [int(f['id'].split('-')[1]) for f in site_data['faculties_section'] if f['id'].startswith('T-') and f['id'].split('-')[1].isdigit()]
-        new_id = f"T-{max(existing_ids, default=0) + 1}"
+       
+
 
         image_path = ''
         if 'image' in request.files:
@@ -512,51 +514,123 @@ def delete_faculty(faculty_id):
         flash(f'Error deleting faculty: {str(e)}', 'error')
     return redirect(url_for('admin_dashboard', _anchor='tab-faculties_section'))
 
+import uuid
+from werkzeug.utils import secure_filename
+
+# Helper to load/save JSON
+def load_data():
+    with open(DATA_FILE, 'r') as f:
+        return json.load(f)
+
+def save_data(data):
+    with open(DATA_FILE, 'w') as f:
+        json.dump(data, f, indent=2)
+
+# === ROUTES ===
+
+@app.route('/admin/album', methods=['GET'])
+def admin_album():
+    data = load_data()
+    return render_template('admin_dashboard.html', site_data=data)
 
 
+@app.route('/admin/album/add', methods=['POST'])
+def add_album_item():
+    data = load_data()
+    album = data.get("album", [])
+
+    caption = request.form.get("caption", "").strip()
+    image_file = request.files.get("image")
+
+    if not image_file:
+        return "Image is required", 400
+
+    filename = secure_filename(image_file.filename)
+    image_path = os.path.join("static/images", filename)
+    image_file.save(image_path)
+
+    new_id = f"A-{str(uuid.uuid4())[:8]}"
+    album.append({
+        "id": new_id,
+        "image": filename,  # Store only filename
+        "caption": caption
+    })
+
+    data["album"] = album
+    save_data(data)
+    return jsonify({"success": True, "id": new_id})
 
 
-@app.route('/admin/update/album', methods=['POST'])
-def update_album():
-    try:
-        updated_album = []
-        i = 0
-        while f'caption_{i}' in request.form:
-            album_item = {
-                'id': f"A-{i+1}",
-                'caption': request.form[f'caption_{i}'],
-                'image': data['album'][i]['image'] if i < len(data['album']) else ''
-            }
-            
-            # Handle image upload
-            if f'image_{i}' in request.files:
-                file = request.files[f'image_{i}']
-                if file.filename:
-                    filepath = save_uploaded_file(file)
-                    if filepath:
-                        album_item['image'] = filepath
-            
-            updated_album.append(album_item)
-            i += 1
-        
-        data['album'] = updated_album
-        save_data()
-        flash('Album updated successfully!', 'success')
-    except Exception as e:
-        flash(f'Error updating album: {str(e)}', 'error')
-    
-    return redirect(url_for('admin_dashboard', _anchor='tab-album'))
+@app.route('/admin/album/delete/<album_id>', methods=['POST'])
+def delete_album_item(album_id):
+    data = load_data()
+    album = data.get("album", [])
+    updated_album = []
 
+    for item in album:
+        if item["id"] == album_id:
+            # Delete image file if it's local
+            image_path = os.path.join("static/images", item["image"])
+            if os.path.exists(image_path):
+                try:
+                    os.remove(image_path)
+                except Exception:
+                    pass
+        else:
+            updated_album.append(item)
+
+    data["album"] = updated_album
+    save_data(data)
+    return jsonify({"success": True})
+
+
+@app.route('/admin/album/update/<album_id>', methods=['POST'])
+def update_album_item(album_id):
+    data = load_data()
+    album = data.get("album", [])
+    new_caption = request.form.get("caption", "").strip()
+    image_file = request.files.get("image")
+
+    for item in album:
+        if item["id"] == album_id:
+            changes_made = False
+
+            # Update caption if it's different
+            if new_caption and new_caption != item["caption"]:
+                item["caption"] = new_caption
+                changes_made = True
+
+            # Update image if new image is uploaded
+            if image_file and image_file.filename:
+                old_image_path = os.path.join("static/images", item["image"])
+                if os.path.exists(old_image_path):
+                    try:
+                        os.remove(old_image_path)
+                    except Exception:
+                        pass
+
+                filename = secure_filename(image_file.filename)
+                new_image_path = os.path.join("static/images", filename)
+                image_file.save(new_image_path)
+                item["image"] = filename
+                changes_made = True
+
+            if not changes_made:
+                return jsonify({"success": False, "message": "No changes detected"}), 400
+            break
+
+    data["album"] = album
+    save_data(data)
+    return jsonify({"success": True})
 @app.route('/admin/update/admission_section', methods=['POST'])
 def update_admission_section():
-    try:
-        data['admission_section']['rules'] = request.form.getlist('rules')
-        save_data()
-        flash('Admission section updated successfully!', 'success')
-    except Exception as e:
-        flash(f'Error updating admission section: {str(e)}', 'error')
-    
-    return redirect(url_for('admin_dashboard', _anchor='tab-admission_section'))
+    data = load_data()
+    rules = request.form.getlist('rules')
+    data['admission_section'] = {"rules": [r.strip() for r in rules if r.strip()]}
+    save_data(data)
+    return redirect('/admin/album')  # Or wherever your admin dashboard lives
+
+
 
 @app.route('/admin/update/hostel_carousel', methods=['POST'])
 def update_hostel_carousel():
