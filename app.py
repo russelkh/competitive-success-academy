@@ -622,13 +622,27 @@ def update_album_item(album_id):
     data["album"] = album
     save_data(data)
     return jsonify({"success": True})
+
+
+
 @app.route('/admin/update/admission_section', methods=['POST'])
 def update_admission_section():
-    data = load_data()
-    rules = request.form.getlist('rules')
-    data['admission_section'] = {"rules": [r.strip() for r in rules if r.strip()]}
-    save_data(data)
-    return redirect('/admin/album')  # Or wherever your admin dashboard lives
+    if 'admin' not in session:
+        return redirect(url_for('admin_login'))  # Optional security
+
+    rules_raw = request.form.get('rules', '')
+    rules = [line.strip() for line in rules_raw.splitlines() if line.strip()]
+
+    data = load_site_data()
+    data['admission_section']['rules'] = rules
+    save_site_data(data)
+
+    flash("✅ Admission rules updated successfully.")
+    return redirect(url_for('admin_dashboard'))  # ✅ NOT 'admin_login'
+
+
+
+
 
 
 
