@@ -771,70 +771,178 @@ function confirmAdUpdate(event) {
   });
 }
 </script>
+<!-- Album Admin Section -->
 
-
-<!-- Album Section -->
 <div class="section-box" id="album">
-  <h2>Album</h2>
-  <form action="/admin/update/album" method="POST" enctype="multipart/form-data">
-    <div class="horizontal-scroll">
-      {% for a in data.album %}
-      <div style="min-width: 300px; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; background: #fff;">
-        <img src="{{ a.image }}" class="img-preview">
-        <label>Caption</label>
-        <input type="text" name="caption_{{ loop.index0 }}" value="{{ a.caption }}">
-        <label>Change Image</label>
-        <input type="file" name="image_{{ loop.index0 }}">
-        <button type="submit" formaction="/admin/delete/album/{{ a.id }}" formmethod="POST" style="margin-top: 0.5rem; background: crimson; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">Remove</button>
-      </div>
-      {% endfor %}
+  <h2>📸 Manage Album</h2>
+
+  <!-- Display Album Items Horizontally -->
+  <div class="album-scroll-container" style="display: flex; overflow-x: auto; gap: 1rem; padding: 1rem;">
+    {% for item in data.album %}
+    <div class="album-card" style="min-width: 200px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 1rem; position: relative;">
+      <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="Album Image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+      <p style="margin: 10px 0;">{{ item.caption }}</p>
+
+      <form class="update-form" data-id="{{ item.id }}" enctype="multipart/form-data">
+        <input type="text" name="caption" placeholder="New caption" style="width: 100%;" />
+        <input type="file" name="image" accept="image/*" />
+        <button type="submit">Update</button>
+      </form>
+
+      <button class="delete-btn" data-id="{{ item.id }}" style="position: absolute; top: 10px; right: 10px;">❌</button>
     </div>
-    <button type="submit">Update Album</button>
-  </form>
-  <hr>
-  <h3>Add New Album Image</h3>
-  <form action="/admin/add/album" method="POST" enctype="multipart/form-data">
-    <label>Caption</label>
-    <input type="text" name="caption">
-    <label>Upload Image</label>
-    <input type="file" name="image">
-    <button type="submit">Add Album Image</button>
+    {% endfor %}
+  </div>
+
+  <!-- Add New Album Item -->
+  <h3>Add New</h3>
+  <form id="add-album-form" enctype="multipart/form-data">
+    <input type="text" name="caption" placeholder="Caption" required />
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">Add</button>
   </form>
 </div>
 
-<!-- Admission Section -->
-<div class="section-box" id="admission_section">
-  <h2>Admission Rules</h2>
-  <form action="/admin/update/admission_section" method="POST">
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      {% for rule in data.admission_section.rules %}
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <input type="text" name="rules" value="{{ rule }}" style="flex: 1;">
-        <button type="button" onclick="this.parentElement.remove()" style="background: crimson; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
-      </div>
-      {% endfor %}
-    </div>
-    <div style="margin-top: 1rem;">
-      <button type="button" onclick="addRuleField()" style="margin-bottom: 1rem;">+ Add New Rule</button><br>
-      <button type="submit">Update Admission Section</button>
-    </div>
-  </form>
-</div>
+<!-- SweetAlert2 Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-function addRuleField() {
-  const container = document.querySelector('#admission_section form > div');
-  const newField = document.createElement('div');
-  newField.style.display = 'flex';
-  newField.style.alignItems = 'center';
-  newField.style.gap = '1rem';
-  newField.innerHTML = `
-    <input type="text" name="rules" placeholder="New rule" style="flex: 1;">
-    <button type="button" onclick="this.parentElement.remove()" style="background: crimson; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
-  `;
-  container.appendChild(newField);
-}
+  // Delete Album Item
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This album item will be deleted!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/admin/album/delete/${id}`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                Swal.fire('Deleted!', 'Album item has been deleted.', 'success')
+                  .then(() => location.reload());
+              }
+            });
+        }
+      });
+    };
+  });
+
+  // Update Album Item
+  document.querySelectorAll('.update-form').forEach(form => {
+    form.onsubmit = e => {
+      e.preventDefault();
+      const id = form.dataset.id;
+      const formData = new FormData(form);
+      const caption = form.querySelector('input[name="caption"]').value.trim();
+      const image = form.querySelector('input[name="image"]').files[0];
+
+      if (!caption && !image) {
+        Swal.fire('Nothing to update!', 'Please change caption or select a new image.', 'info');
+        return;
+      }
+
+      Swal.fire({
+        title: 'Confirm Update',
+        text: 'Do you want to update this album item?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Update',
+        cancelButtonText: 'Cancel'
+      }).then(result => {
+        if (result.isConfirmed) {
+          fetch(`/admin/album/update/${id}`, {
+            method: 'POST',
+            body: formData
+          }).then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                Swal.fire('Updated!', 'Album item updated successfully.', 'success')
+                  .then(() => location.reload());
+              }
+            });
+        }
+      });
+    };
+  });
+
+  // Add Album Item
+  document.getElementById('add-album-form').onsubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    const caption = form.caption.value.trim();
+    const image = form.image.files[0];
+
+    if (!caption || !image) {
+      Swal.fire('Missing Fields!', 'Please provide both caption and image.', 'warning');
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    Swal.fire({
+      title: 'Add New Album Item?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Add',
+      cancelButtonText: 'Cancel'
+    }).then(result => {
+      if (result.isConfirmed) {
+        fetch('/admin/album/add', {
+          method: 'POST',
+          body: formData
+        }).then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire('Added!', 'New album item added.', 'success')
+                .then(() => location.reload());
+            }
+          });
+      }
+    });
+  };
 </script>
+
+
+
+<!-- Admin Admission Section -->
+<div class="section-box" id="admission_section" style="display: none;">
+  <h2>Admission Rules Editor</h2>
+
+  <form action="/admin/update/admission_section" method="POST" onsubmit="return confirmAdmissionUpdate(event)">
+    <label for="rules">Admission Rules (one per line)</label>
+    <textarea name="rules" rows="8" style="width: 100%;">{% for rule in data.admission_section.rules %}{{ rule }}&#10;{% endfor %}</textarea>
+    <button type="submit" style="margin-top: 1rem;">💾 Update Rules</button>
+  </form>
+</div>
+<script>
+  function confirmAdmissionUpdate(event) {
+    event.preventDefault();
+    Swal.fire({
+      title: 'Update Admission Rules?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update'
+    }).then(result => {
+      if (result.isConfirmed) {
+        event.target.submit();
+      }
+    });
+  }
+  </script>
+  
+
+
+
+
+
+
+
 
 <!-- Hostel Carousel Section -->
 <div class="section-box" id="hostel_carousel_images">
@@ -855,20 +963,6 @@ function addRuleField() {
   </form>
 </div>
 
-<script>
-function addRuleField() {
-  const container = document.querySelector('#admission_section form > div');
-  const newField = document.createElement('div');
-  newField.style.display = 'flex';
-  newField.style.alignItems = 'center';
-  newField.style.gap = '1rem';
-  newField.innerHTML = `
-    <input type="text" name="rules" placeholder="New rule" style="flex: 1;">
-    <button type="button" onclick="this.parentElement.remove()" style="background: crimson; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
-  `;
-  container.appendChild(newField);
-}
-</script>
 
 <!-- Map Section -->
 <div class="section-box" id="map_section">
