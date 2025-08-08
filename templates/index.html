@@ -42,7 +42,8 @@
   <h2 class="section-title">{{ heads_section.title }}</h2>
   <div class="heads-container">
     {% for head in heads_section.cards %}
-      <div class="head-card {{ head.side }}">
+    <div class="head-card {% if loop.index == 2 %}middle{% else %}{{ head.side }}{% endif %}">
+
         <div class="head-image" data-popup="popup-{{ head.side }}">
           <img src="{{ head.image }}" alt="Head {{ loop.index }}" />
           {% if head.side == 'middle' %}
@@ -66,8 +67,59 @@
   {% endfor %}
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.head-image').forEach(image => {
+      const card = image.closest('.head-card');
+      if (!card) return;
+  
+      // ✅ Completely skip hover functionality for the middle image
+      if (card.classList.contains('middle')) return;
+  
+      const isLeft = card.classList.contains('left');
+      const isRight = card.classList.contains('right');
+      const popup = document.getElementById(isLeft ? 'popup-left' : (isRight ? 'popup-right' : ''));
+  
+      if (popup) {
+        popup.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        popup.style.position = 'fixed';
+        popup.style.top = '100px';
+        popup.style.width = '50vw';
+        popup.style.height = 'calc(100vh - 100px)';
+        popup.style.opacity = '0';
+        popup.style.pointerEvents = 'none';
+        popup.style.zIndex = '2000';
+        popup.style.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+        popup.style.overflowY = 'auto';
+  
+        if (isLeft) {
+          popup.style.right = '0';
+          popup.style.left = 'auto';
+          popup.style.transform = 'translateX(100%)';
+        } else if (isRight) {
+          popup.style.left = '0';
+          popup.style.right = 'auto';
+          popup.style.transform = 'translateX(-100%)';
+        }
+  
+        image.addEventListener('mouseenter', () => {
+          popup.style.opacity = '1';
+          popup.style.pointerEvents = 'auto';
+          popup.style.transform = 'translateX(0)';
+        });
+  
+        image.addEventListener('mouseleave', () => {
+          popup.style.opacity = '0';
+          popup.style.pointerEvents = 'none';
+          popup.style.transform = isLeft ? 'translateX(100%)' : 'translateX(-100%)';
+        });
+      }
+    });
 
-
+  });
+  </script>
+  
+  
 <!-- State Toppers -->
 <section id="achievements" class="hall-of-fame">
   <div class="container">
@@ -88,7 +140,7 @@
 <!-- Subject Toppers -->
 <section class="subject-toppers-section">
   <div class="container">
-    <h2 class="section-title">📚 Subject Toppers by Year</h2>
+    <h2 class="section-title"> Subject Toppers </h2>
 
     <!-- Year Tabs -->
     <div class="year-tabs">
@@ -120,18 +172,37 @@
   <h2 class="section-title">{{ ad_section.title }}</h2>
   <div class="ad-container">
     <div class="ad-image" style="background-image: url('{{ ad_section.left_image }}');"></div>
+
     <div class="ad-video">
-      <div class="video-wrapper">
-        <video id="csa-video" playsinline preload="none" poster="{{ ad_section.video.poster }}">
+      <div class="video-wrapper" id="videoWrapper">
+        <video id="csa-video" playsinline preload="metadata" poster="{{ ad_section.video.poster }}">
           <source src="{{ ad_section.video.source }}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
+
+        <!-- Overlay Play Button -->
         <div class="custom-play-button" id="customPlay"></div>
+
+        <!-- Custom Controls -->
+        <div class="video-controls">
+          <div class="play-pause-btn" id="playPauseBtn"></div>
+          <div class="progress-container" id="progressContainer">
+            <div class="buffered" id="bufferedBar"></div>
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+          <input type="range" class="volume" id="volumeSlider" min="0" max="1" step="0.05">
+        </div>
       </div>
     </div>
+
     <div class="ad-image" style="background-image: url('{{ ad_section.right_image }}');"></div>
   </div>
 </section>
+
+
+
+
 <section class="admin-access">
     <div class="container">
       <a href="{{ url_for('admin_login') }}" class="admin-button">🔐 Admin Panel</a>
