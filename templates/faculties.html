@@ -33,17 +33,9 @@
 <!-- Faculties Section -->
 <section id="faculties" class="faculties-section">
   <div class="container">
-    <h2 class="section-title">{{ faculties_section.title }}</h2>
-    <div class="faculties-grid">
-      {% for faculty in faculties_section.faculty_list %}
-      <div class="faculty-card" id="faculty-{{ faculty.id }}" data-id="{{ faculty.id }}">
-        <img src="{{ faculty.image }}" alt="{{ faculty.name }}">
-        <h3>{{ faculty.name }}</h3>
-        <p class="subject">{{ faculty.subject }}</p>
-        <p class="qualification">{{ faculty.qualification }}</p>
-      </div>
-      {% endfor %}
-    </div>
+    <h2 class="section-title" id="facultiesTitle">Meet Our Faculties</h2>
+    <div class="faculties-grid" id="facultiesGrid"></div>
+    
   </div>
 </section>
 
@@ -67,7 +59,41 @@
       </div>
     </div>
   </footer>
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/faculties')
+        .then(response => response.json())
+        .then(data => {
+          const facultiesContainer = document.getElementById('facultiesGrid');
+          facultiesContainer.innerHTML = '';
+    
+          if (Array.isArray(data)) {
+            data.forEach(faculty => {
+              const card = document.createElement('div');
+              card.className = 'faculty-card';
+              card.id = `faculty-${faculty.id}`;
+              card.setAttribute('data-id', faculty.id);
+    
+              card.innerHTML = `
+                <img src="${faculty.image}" alt="${faculty.name}">
+                <h3>${faculty.name}</h3>
+                <p class="subject">${faculty.subject}</p>
+                <p class="qualification">${faculty.qualification}</p>
+              `;
+    
+              facultiesContainer.appendChild(card);
+            });
+          } else {
+            facultiesContainer.innerHTML = '<p>No faculty data available.</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching faculty data:', error);
+          document.getElementById('facultiesGrid').innerHTML = '<p>Error loading data.</p>';
+        });
+    });
+    </script>
+    
+    
 </body>
 </html>
