@@ -9,7 +9,7 @@
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   /* Use local file path */
-  background: url('/static/background-image\ for\ album.png') no-repeat center center fixed;
+  background: url('/static/images/background-image\ for\ album.png') no-repeat center center fixed;
   background-size: cover;
   overflow-x: hidden;
 }
@@ -189,7 +189,7 @@ h2::after {
 <body>
   <a href="{{ url_for('index') }}" class="back-btn">← Back to Home</a>
   <div class="logo">
-    <img src="https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png" alt="CSA School Logo">
+    <img src="/static/images/csa logo.webp" alt="CSA School Logo">
   </div>
   <h2>CSA School Memories</h2>
   <div class="carousel-container">
@@ -202,7 +202,9 @@ h2::after {
           <div class="caption">{{ image.caption }}</div>
         </div>
       </div>
-      {% endfor %}
+    {% endfor %}
+    
+
     </div>
     
     <button class="nav-btn right" onclick="nextSlide()">&#10095;</button>
@@ -229,4 +231,66 @@ h2::after {
     window.addEventListener('load', updateCarousel);
   </script>
 </body>
+<script>
+fetch('/api/album')
+  .then(res => res.json())
+  .then(data => {
+    const carousel = document.getElementById('carousel');
+    if (!data || !Array.isArray(data.images)) {
+      carousel.innerHTML = '<p style="color:red;text-align:center;">No images found</p>';
+      return;
+    }
+
+    data.images.forEach((img, i) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'carousel-item-wrapper';
+      wrapper.id = `album-${img.id}`;
+
+      const item = document.createElement('div');
+      item.className = 'carousel-item';
+
+      const image = document.createElement('img');
+      image.src = img.image;
+      image.alt = img.caption;
+
+      const caption = document.createElement('div');
+      caption.className = 'caption';
+      caption.textContent = img.caption;
+
+      item.appendChild(image);
+      item.appendChild(caption);
+      wrapper.appendChild(item);
+      carousel.appendChild(wrapper);
+    });
+
+    // Re-initialize carousel functionality
+    const wrappers = document.querySelectorAll('.carousel-item-wrapper');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+      wrappers.forEach((w, i) => w.classList.toggle('active', i === currentIndex));
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % wrappers.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + wrappers.length) % wrappers.length;
+      updateCarousel();
+    }
+
+    window.updateCarousel = updateCarousel;
+    window.nextSlide = nextSlide;
+    window.prevSlide = prevSlide;
+
+    updateCarousel();
+  })
+  .catch(err => {
+    console.error('Error loading album data:', err);
+  });
+</script>
+
 </html>
