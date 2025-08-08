@@ -413,14 +413,13 @@ h1, h2, h3, h4 {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 10;
+  z-index: 2000;
 }
 
 .head-card.middle .head-image:hover .tooltip-popup {
   opacity: 1;
   pointer-events: auto;
 }
-
 /* Slide-in Panels */
 .head-popup {
   position: fixed;
@@ -430,7 +429,7 @@ h1, h2, h3, h4 {
   width: 50vw;
   height: calc(100vh - 100px);
   top: 100px;
-  z-index: 999;
+  z-index: 2000; /* <- was 999 */
   opacity: 0;
   pointer-events: none;
   transition: transform 0.5s ease, opacity 0.5s ease;
@@ -440,8 +439,8 @@ h1, h2, h3, h4 {
 
 /* Left triggers right panel */
 .popup-right {
-  right: 0;
-  transform: translateX(100%);
+  right: 50%;
+  transform: translateX(-100%);
 }
 .head-card.left .head-image:hover ~ #popup-right {
   transform: translateX(0);
@@ -451,9 +450,10 @@ h1, h2, h3, h4 {
 
 /* Right triggers left panel */
 .popup-left {
-  left: 0;
-  transform: translateX(-100%);
+  left: 50%;
+  transform: translateX(100%);
 }
+
 .head-card.right .head-image:hover ~ #popup-left {
   transform: translateX(0);
   opacity: 1;
@@ -533,7 +533,9 @@ h1, h2, h3, h4 {
   border-radius: 4px;
   font-weight: 600;
   font-size: 0.8rem;
+  z-index: 2; /* ✅ Add this line */
 }
+
 @media (max-width: 768px) {
   .toppers-container {
     display: grid;
@@ -624,113 +626,21 @@ h1, h2, h3, h4 {
   font-size: 0.9rem;
   color: #666;
 }
-/*adsectiom*/
-.ad-section {
-  padding: 50px 0;
-  background-color: var(--light-color);
-}
 
-.ad-container {
-  display: flex;
-  align-items: center;
-}
-
-.ad-image {
-  flex: 1.25; /* Images now wider */
-  height: 500px; /* Taller posters */
-  background-size: cover;
-  background-position: center;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-}
-
-.left-ad {
-  background-image: url('https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/2025%20ad%20for%20csa.jpeg');
-}
-
-.right-ad {
-  background-image: url('https://cdn.jsdelivr.net/gh/russelkh/school-media/images%20copy/2024%20ad.jpeg');
-}
-
-.ad-video {
-  flex: 1.5;
-  padding: 0 20px;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Prevents overflow if aspect ratio varies */
-}
-
-.ad-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the video fills the box beautifully */
-  border-radius: 12px;
-  box-shadow: var(--shadow); /* Keep your existing shadow variable */
-}
-
-
-
-.ad-video iframe {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-}
-.video-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-#play-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 64px;
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  padding: 10px 20px;
-  cursor: pointer;
-  display: none; /* Hidden by default */
-  z-index: 10;
-  pointer-events: none; /* Doesn't block clicks */
-}
-
-
-.video-wrapper video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-}
-
-.custom-play-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  background: rgba(0, 0, 0, 0.6) url('https://img.icons8.com/ios-filled/50/ffffff/play.png') center center no-repeat;
-  background-size: 32px 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.custom-play-button:hover {
-  background-color: rgba(255, 0, 0, 0.8);
-}
 /* --- AD SECTION --- */
 .ad-section {
   padding: 50px 0;
   background-color: var(--light-color);
 }
 
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Container for images + video */
 .ad-container {
   display: flex;
   align-items: center;
@@ -738,7 +648,7 @@ h1, h2, h3, h4 {
   flex-wrap: wrap;
 }
 
-/* POSTER IMAGE BASE */
+/* Poster Images */
 .ad-image {
   flex: 1.25;
   height: 500px;
@@ -748,36 +658,14 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow);
   transition: transform 0.4s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: slideInAd 0.8s forwards;
 }
 
-/* INDIVIDUAL ENTRIES */
-.left-ad {
-  background-image: url('https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/2025%20ad%20for%20csa.jpeg');
-  animation-delay: 0.2s;
-}
-.right-ad {
-  background-image: url('https://cdn.jsdelivr.net/gh/russelkh/school-media/images%20copy/2024%20ad.jpeg');
-  animation-delay: 0.4s;
-}
-
-/* HOVER EFFECT */
 .ad-image:hover {
   transform: scale(1.03);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* ANIMATION */
-@keyframes slideInAd {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* VIDEO SECTION */
+/* Video Container */
 .ad-video {
   flex: 1.5;
   padding: 0 20px;
@@ -790,20 +678,24 @@ h1, h2, h3, h4 {
 
 .video-wrapper {
   position: relative;
-  display: inline-block;
   width: 100%;
   height: 100%;
-}
-
-.ad-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background: black;
   border-radius: 12px;
+  overflow: hidden;
   box-shadow: var(--shadow);
 }
 
-/* PLAY BUTTON */
+/* Video Tag */
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+/* Custom Play Button */
 .custom-play-button {
   position: absolute;
   top: 50%;
@@ -816,10 +708,87 @@ h1, h2, h3, h4 {
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.3s;
+  z-index: 10; /* ✅ Ensure clickable */
+  pointer-events: auto; /* ✅ Allow clicks */
 }
 
 .custom-play-button:hover {
   background-color: rgba(255, 0, 0, 0.8);
+}
+
+/* Custom Controls Bar */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none; /* ✅ Won't block clicks unless active */
+}
+
+.video-wrapper:hover .video-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Play/Pause Button */
+.play-pause-btn {
+  width: 24px;
+  height: 24px;
+  background: url('https://img.icons8.com/ios-filled/50/ffffff/play.png') center/contain no-repeat;
+  cursor: pointer;
+}
+
+.video-wrapper.playing .play-pause-btn {
+  background-image: url('https://img.icons8.com/ios-filled/50/ffffff/pause.png');
+}
+
+/* Progress Bar */
+.progress-container {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  width: 0%;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: red;
+  width: 0%;
+}
+
+/* Time Display */
+.time-display {
+  font-size: 12px;
+  color: white;
+  min-width: 60px;
+}
+
+/* Volume Slider */
+.volume {
+  width: 70px;
+  cursor: pointer;
 }
 
 /* 📱 MOBILE RESPONSIVE */
@@ -1104,10 +1073,11 @@ html {
   .popup-close {
     position: absolute;
     top: 10px;
-    right: 10px;
-    font-size: 24px;
+    right: 20px;
+    font-size: 28px;
     cursor: pointer;
     z-index: 1000;
+    color: #888;
   }
 }
 /* Makes carousel transitions smooth */
