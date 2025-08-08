@@ -8,16 +8,16 @@
   "about_section": {
     "title": "About CSA",
     "paragraphs": [
-      "Competitive Success Academy is a premier educational institution dedicated to nurturing young minds and preparing them for the challenges of tomorrow. Founded in 1995, our academy has consistently ranked among the top schools in the region.",
-      "Our mission is to provide a holistic education that combines academic rigor with character development. We believe in fostering critical thinking, creativity, and compassion in all our students.",
-      "With state-of-the-art facilities and a faculty of distinguished educators, CSA offers an unparalleled learning environment. Our alumni have gone on to excel in diverse fields, from medicine and engineering to arts and public service.",
-      "At CSA, we don't just teach subjects - we teach students how to learn, adapt, and thrive in an ever-changing world. Our unique curriculum blends traditional values with innovative teaching methodologies."
+      "Competitive Success Academy is a premier educational institution dedicated to nurturing young minds and preparing them for the challenges of tomorrow. Founded in 2019, our academy has consistently ranked among the top schools in the region.",
+      "The School\u2019s mission is to provide a learning environment that encourages children to bring out the best in themselves an enable their all-round development through the joy of learning, enduring values and the celebration of diversity.",
+      "At CSA, We recognize the imperative of important and educational experience that is world class in every respect and which prepares children for Global citizenship, a school that celebrates the culture of excellence and is an embodiment of values. We believe that a curriculum of excellence with a global dimension is control to the education of children to face the challenges of the 21st century with confidence and strength of character.",
+      " we don't just teach subjects - we teach students how to learn, adapt, and thrive in an ever-changing world. Our unique curriculum blends traditional values with innovative teaching methodologies."
     ],
     "carousel_images": [
-      "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/about%20image0.jpeg",
-      "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20about%20probable%202.jpeg",
-      "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20about%20probable%203.jpeg",
-      "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/about%204.jpeg"
+      "static/images/about image0.webp",
+      "static/images/csa about probable 2.webp",
+      "static/images/csa about probable 3.webp",
+      "static/images/about 4.webp"
     ]
   },
   "heads_section": {
@@ -26,17 +26,17 @@
         "name": "Ch. Mohendra Singh",
         "role": "Founder & Chairperson, Competitive Success Academy",
         "popup_title": "Ch. Mohendra Singh",
-        "popup_text": "The core purpose of education is to provide children with a learning environment which brings out the best in them...",
+        "popup_text": "The core purpose of education is to provide children with a learning environment which brings out the best in them. We believe that every child is endowed with a unique setoff attributes and abilities, which need to be nurtured so that they blossom.\r\n\r\n At Competitive Success Academy, we provide a learning environment that inspires and motivates children, and encourages them to explore limitless possibilities in their quest for knowledge. \r\n\r\nOur caring and committed teachers are our pillars of strength. They teach our children not just with their minds but with their hearts. They make learning enjoyable and rewarding, and imbibe in children the importance of sound values. Our excellent educational programs are complemented by state-of-the art facilities and reasons and our focus on sports and co-curricular opportunities facilities children\u2019s holistic education.\r\n\r\n I warmly invite you to explore Competitive Success Academy as we re-dedicate ourselves everyday, to impart the very best education to young minds.\r\n",
         "side": "left",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head.jpeg"
+        "image": "static/images/head.webp"
       },
       {
         "name": "Tokpam Khelendro",
         "role": "Secretary, Competitive Success Academy",
-        "popup_title": "",
+        "popup_title": "Tokpam Khelendro",
         "popup_text": "",
-        "side": "middle",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head2.jpeg"
+        "side": "left",
+        "image": "static/images/head2.webp"
       },
       {
         "name": "DR. K . Nabachandra Sharma",
@@ -44,60 +44,59 @@
         "popup_title": "DR. K . NABACHANDRA SHARMA",
         "popup_text": "First of all, I congratulate the students who have passed the Class X Board Examination...",
         "side": "right",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/head3.png"
+        "image": "static/images/head3.webp"
       }
     ],
     "title": "Meet Our Heads"
   },
   "state_toppers": [
     {
-      "name": "student 1",
+      "name": "student",
       "rank": "8th Position",
-      "description": "Class of 2023 - 98.6%",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state--1.png"
+      "image": "static/images/state--1.webp"
     },
     {
-      "name": "student 1 ",
-      "rank": "17 Position",
-      "description": "Class of 2023 - 97.8%",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state-2.png"
+      "name": "student 2",
+      "rank": "17th Position",
+      "image": "static/images/state-2.webp"
     },
     {
       "name": "Maibam Puja Devi",
       "rank": "19th Position",
-      "description": "Class of 2023 - HSE",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state-3.png"
+      "image": "static/images/state-3.webp"
     },
     {
-      "name": "Emily Chen",
+      "name": "student 3",
       "rank": "4th Position",
-      "description": "Class of 2023 - 96.9%",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state4.png"
+      "image": "static/images/state4.webp"
     },
     {
-      "name": "James Wilson",
+      "name": "student 4",
       "rank": "5th Position",
-      "description": "Class of 2023 - 96.5%",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/state5.png"
+      "image": "static/images/state5.webp"
     }
   ],
   "subject_toppers": {
     "2024": {
-      "title": "2024 Subject Toppers",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/subject-toppers-2024.jpeg"
+      "title": "2024 subject toppers",
+      "image": ""
     },
     "2023": {
       "title": "2023 Subject Toppers",
-      "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/subject-toppers-2023.jpeg"
+      "image": ""
+    },
+    "2025": {
+      "title": "2025 Subject toppers",
+      "image": "/static/images/2025_subject_toppers.jpeg"
     }
   },
   "ad_section": {
     "title": "Updates",
-    "left_image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/2025%20ad%20for%20csa.jpeg",
-    "right_image": "https://cdn.jsdelivr.net/gh/russelkh/school-media/images%20copy/2024%20ad.jpeg",
+    "left_image": "static/images/2025 ad for csa.webp",
+    "right_image": "static/images/2024 ad.webp",
     "video": {
       "source": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20ad%20video%20.mp4",
-      "poster": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/ad%20video%20thumbnail.jpeg"
+      "poster": "static/images/ad video thumbnail.webp"
     }
   },
   "map_section": {
@@ -106,7 +105,7 @@
   },
   "layout": {
     "site_name": "Competitive Success Academy",
-    "logo_url": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/csa%20logo.png",
+    "logo_url": "static/images/csa logo.webp",
     "nav_links": [
       {
         "label": "Home",
@@ -151,176 +150,160 @@
       "copyright": "\u00a9 2025 Competitive Success Academy. All Rights Reserved."
     }
   },
-  "faculties_section": {
-    "title": "Meet Our Faculties",
-    "faculty_list": [
-      {
-        "id": "T-1",
-        "name": "Salam Yaiphabi Devi",
-        "subject": "Mathematics",
-        "qualification": "M.Sc Mathematics",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Salam%20Yaiphabi%20Devi.jpeg"
-      },
-      {
-        "id": "T-2",
-        "name": "Thongam Dineshor Singh",
-        "subject": "Mathematics",
-        "qualification": "Lecturer M.Sc Mathematics B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Thongam%20Dineshor%20Singh.jpeg"
-      },
-      {
-        "id": "T-3",
-        "name": "Bandan Chongtham",
-        "subject": "English",
-        "qualification": "Vice-Principal (Lecturer M.A English)",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Bandana%20Chongtham.jpeg"
-      },
-      {
-        "id": "T-4",
-        "name": "Gautam Singh Yandrembam",
-        "subject": "English Literature",
-        "qualification": "M.A English B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Gautam%20Singh%20Yandrembam.jpeg"
-      },
-      {
-        "id": "T-5",
-        "name": "Ngangom Pintu",
-        "subject": "Manipuri",
-        "qualification": "M.A Manipuri B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Ngangom%20Pintu.jpeg"
-      },
-      {
-        "id": "T-6",
-        "name": "Vidyalaxmi Chingsubam",
-        "subject": "Manipuri",
-        "qualification": "M.A Manipuri",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Vidyalaxmi%20Chingsubam.jpeg"
-      },
-      {
-        "id": "T-7",
-        "name": "priyabarti Laishram",
-        "subject": "Physics",
-        "qualification": "M.Sc Physic B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Priyabati%20Laishram.jpeg"
-      },
-      {
-        "id": "T-8",
-        "name": "Yandrembam Amita Devi",
-        "subject": "Physics",
-        "qualification": "M.Sc Physics B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yandrembam%20Amita%20Devi.jpeg"
-      },
-      {
-        "id": "T-9",
-        "name": "Yumnam Yaikhomba Meitei",
-        "subject": "Chemistry",
-        "qualification": "M.Sc Chemistry B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yumnam%20Yaikhomba%20Meitei.jpeg"
-      },
-      {
-        "id": "T-10",
-        "name": "Irom Sonali",
-        "subject": "Chemistry",
-        "qualification": "M.Sc Chemistry",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Irom%20Sonali.jpeg"
-      },
-      {
-        "id": "T-11",
-        "name": "Dr. Khaidem Binky",
-        "subject": "Zoology",
-        "qualification": "Former Lecturer (Zoology) COMET School",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Dr%20Khaidem%20Binky.jpeg"
-      },
-      {
-        "id": "T-12",
-        "name": "Thounaojam Rameshori",
-        "subject": "Biology",
-        "qualification": "M.Sc Biology, B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Thounaojam%20Rameshori.jpeg"
-      },
-      {
-        "id": "T-13",
-        "name": "Duanthaolu Dangmei",
-        "subject": "Biology",
-        "qualification": "M.Sc Biology, B.Ed",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Duanthaolu%20Dangmei.jpeg"
-      },
-      {
-        "id": "T-14",
-        "name": "Omega Oinam",
-        "subject": "Biology",
-        "qualification": "M.Sc Biology",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Omega%20Oinam.jpeg"
-      },
-      {
-        "id": "T-15",
-        "name": "Devika Ahanthem",
-        "subject": "Human Ecology and Family Sciences",
-        "qualification": "Lecturer of Human Ecology and Family Sciences",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Devika%20Ahanthem.jpeg"
-      },
-      {
-        "id": "T-",
-        "name": "Yumanam Moni",
-        "subject": "Human Ecology and Family Sciences",
-        "qualification": "Lecturer of Human Ecology and Family Sciences",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/Yumanam%20Moni.jpeg"
-      }
-    ]
-  },
-  "album": {
-    "title": "CSA School Memories",
-    "images": [
-      {
-        "id": "A-1",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/topper%20speech.jpeg",
-        "caption": "State Topper's speech at CSA Felicitation event"
-      },
-      {
-        "id": "A-2",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/candle%20lighthing2025.jpeg",
-        "caption": "Candle Lighting ceremony for the year 2025 felicitation program"
-      },
-      {
-        "id": "A-3",
-        "image": "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/president-speech.jpeg",
-        "caption": "President giving speech on the felicitaion of the year 2025"
-      },
-      {
-        "id": "A-4",
-        "image": "images/album4.jpg",
-        "caption": "CSA Sports Meet"
-      }
-    ]
-  },
+  "faculties_section": [
+    {
+      "id": "T-1",
+      "name": "Salam Yaiphabi Devi",
+      "subject": "Mathematics",
+      "qualification": "M.Sc Mathematics",
+      "image": "static/images/Salam Yaiphabi Devi.webp"
+    },
+    {
+      "id": "T-2",
+      "name": "Thongam Dineshor Singh",
+      "subject": "Mathematics",
+      "qualification": "Lecturer M.Sc Mathematics B.Ed",
+      "image": "static/images/Thongam Dineshor Singh.webp"
+    },
+    {
+      "id": "T-3",
+      "name": "Bandan Chongtham",
+      "subject": "English",
+      "qualification": "Vice-Principal (Lecturer M.A English)",
+      "image": "static/images/Bandana Chongtham.webp"
+    },
+    {
+      "id": "T-4",
+      "name": "Gautam Singh Yandrembam",
+      "subject": "English Literature",
+      "qualification": "M.A English B.Ed",
+      "image": "static/images/Gautam Singh Yandrembam.webp"
+    },
+    {
+      "id": "T-5",
+      "name": "Ngangom Pintu",
+      "subject": "Manipuri",
+      "qualification": "M.A Manipuri B.Ed",
+      "image": "static/images/Ngangom Pintu.webp"
+    },
+    {
+      "id": "T-6",
+      "name": "Vidyalaxmi Chingsubam",
+      "subject": "Manipuri",
+      "qualification": "M.A Manipuri",
+      "image": "static/images/Vidyalaxmi Chingsubam.webp"
+    },
+    {
+      "id": "T-7",
+      "name": "priyabarti Laishram",
+      "subject": "Physics",
+      "qualification": "M.Sc Physic B.Ed",
+      "image": "static/images/Priyabati Laishram.webp"
+    },
+    {
+      "id": "T-8",
+      "name": "Yandrembam Amita Devi",
+      "subject": "Physics",
+      "qualification": "M.Sc Physics B.Ed",
+      "image": "static/images/Yandrembam Amita Devi.webp"
+    },
+    {
+      "id": "T-9",
+      "name": "Yumnam Yaikhomba Meitei",
+      "subject": "Chemistry",
+      "qualification": "M.Sc Chemistry B.Ed",
+      "image": "static/images/Yumnam Yaikhomba Meitei.webp"
+    },
+    {
+      "id": "T-10",
+      "name": "Irom Sonali",
+      "subject": "Chemistry",
+      "qualification": "M.Sc Chemistry",
+      "image": "static/images/Irom Sonali.webp"
+    },
+    {
+      "id": "T-11",
+      "name": "Dr. Khaidem Binky",
+      "subject": "Zoology",
+      "qualification": "Former Lecturer (Zoology) COMET School",
+      "image": "static/images/Dr Khaidem Binky.webp"
+    },
+    {
+      "id": "T-12",
+      "name": "Thounaojam Rameshori",
+      "subject": "Biology",
+      "qualification": "M.Sc Biology, B.Ed",
+      "image": "static/images/Thounaojam Rameshori.webp"
+    },
+    {
+      "id": "T-13",
+      "name": "Duanthaolu Dangmei",
+      "subject": "Biology",
+      "qualification": "M.Sc Biology, B.Ed",
+      "image": "static/images/Duanthaolu Dangmei.webp"
+    },
+    {
+      "id": "T-14",
+      "name": "Omega Oinam",
+      "subject": "Biology",
+      "qualification": "M.Sc Biology",
+      "image": "static/images/Omega Oinam.webp"
+    },
+    {
+      "id": "T-15",
+      "name": "Devika Ahanthem",
+      "subject": "Human Ecology and Family Sciences",
+      "qualification": "Lecturer of Human Ecology and Family Sciences",
+      "image": "static/images/Devika Ahanthem.webp"
+    },
+    {
+      "id": "T-16",
+      "name": "Yumanam Moni",
+      "subject": "Human Ecology and Family Sciences",
+      "qualification": "Lecturer of Human Ecology and Family Sciences",
+      "image": "static/images/Yumanam Moni.webp"
+    },
+    {
+      "id": "T-17",
+      "name": "Mayengbam Langlen Chanu",
+      "subject": "Manipuri",
+      "qualification": "M.A Manipur",
+      "image": "static/images/Mayengbam_Langlen_Chanu.jpeg"
+    }
+  ],
+  "album": [
+    {
+      "id": "A-1",
+      "image": "static/images/topper speech.webp",
+      "caption": "State Topper's speech at CSA Felicitation event"
+    },
+    {
+      "id": "A-2",
+      "image": "static/images/candle lighthing2025.webp",
+      "caption": "Candle Lighting ceremony for the year 2025 felicitation program"
+    },
+    {
+      "id": "A-3",
+      "image": "static/images/president-speech.webp",
+      "caption": "President giving speech on the felicitaion of the year 2025"
+    }
+  ],
   "admission_section": {
     "rules": [
-      {
-        "id": "R-1",
-        "text": "Admissions open for Grades 6 to 12."
-      },
-      {
-        "id": "R-2",
-        "text": "Submit completed form with birth certificate and photos."
-      },
-      {
-        "id": "R-3",
-        "text": "Entrance test for Grades 9\u201312."
-      },
-      {
-        "id": "R-4",
-        "text": "Parents must attend verification."
-      },
-      {
-        "id": "R-5",
-        "text": "Fee payment required on confirmation."
-      }
+      "Admissions open for Gates 11 and 12.",
+      "Submit completed form with birth certificate and photos.",
+      "Entrance test for Grades 11-12.",
+      "Parents must attend verification.",
+      "Fee payment required on confirmation",
+      "Admissions open for Gates 11 and 12.",
+      "Submit completed form with birth certificate and photos.",
+      "Entrance test for Grades 11-12.",
+      "Parents must attend verification.",
+      "Fee payment required on confirmation"
     ]
   },
   "hostel_carousel_images": [
-    "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel1.jpg",
-    "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel2.jpg",
-    "https://raw.githubusercontent.com/russelkh/school-media/main/images%20copy/hostel3.jpg"
+    "static/images/hostel3.webp"
   ],
   "hostel_features": [
     {
