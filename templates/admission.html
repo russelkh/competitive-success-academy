@@ -439,9 +439,10 @@
         <div class="rules-box">
           <h3>Admission Rules:</h3>
           <ul>
-            {% for rule in admission_section.rules %}
-            <li id="rule-{{ rule.id }}">{{ rule.text }}</li>
+            {% for rule in admission_section["rules"] %}
+            <li>{{ rule }}</li>
           {% endfor %}
+          
           
           </ul>
         </div>
