@@ -19,45 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ✅ Working Head Popup Hover Handling
-
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.head-image').forEach(image => {
-    const card = image.closest('.head-card');
-    if (!card) return;
-
-    const isLeft = card.classList.contains('left');
-    const isRight = card.classList.contains('right');
-    const popup = document.getElementById(isLeft ? 'popup-left' : (isRight ? 'popup-right' : ''));
-
-    if (popup) {
-      image.addEventListener('mouseenter', () => {
-        popup.style.opacity = '1';
-        popup.style.pointerEvents = 'auto';
-        popup.style.transform = 'translateX(0)';
-      });
-      image.addEventListener('mouseleave', () => {
-        popup.style.opacity = '0';
-        popup.style.pointerEvents = 'none';
-        popup.style.transform = isLeft ? 'translateX(-100%)' : 'translateX(100%)';
-      });
-    }
-  });
-
-  const middleImage = document.querySelector('.head-card.middle .head-image');
-  const tooltip = middleImage ? middleImage.querySelector('.tooltip-popup') : null;
-
-  if (middleImage && tooltip) {
-    middleImage.addEventListener('mouseenter', () => {
-      tooltip.style.opacity = '1';
-      tooltip.style.pointerEvents = 'auto';
-    });
-    middleImage.addEventListener('mouseleave', () => {
-      tooltip.style.opacity = '0';
-      tooltip.style.pointerEvents = 'none';
-    });
-  }
-});
+ 
 
 
 
@@ -99,39 +61,52 @@ document.addEventListener('DOMContentLoaded', function () {
     rotationInterval = setInterval(nextImage, transitionTime);
   }
 
-  // === Video Section ===
-  const video = document.getElementById("csa-video");
-  const playBtn = document.getElementById('customPlay');
-  if (video && playBtn) {
-    playBtn.addEventListener('click', () => {
-      video.play();
-      playBtn.style.display = 'none';
+
+
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("csa-video");
+    const playBtn = document.getElementById("customPlay");
+  
+    if (!video || !playBtn) return;
+  
+    // Play video on button click
+    playBtn.addEventListener("click", () => {
+      if (video.paused) {
+        video.play().catch(err => {
+          console.warn("Autoplay blocked:", err);
+          // Retry muted if needed
+          video.muted = true;
+          video.play();
+        });
+      } else {
+        video.pause();
+      }
     });
-
-    video.addEventListener('play', () => playBtn.style.display = 'none');
-
-    video.addEventListener('click', () => {
-      video[video.paused ? 'play' : 'pause']();
+  
+    // Toggle play button visibility
+    video.addEventListener("play", () => {
+      playBtn.style.display = "none";
     });
-
-    if (!sessionStorage.getItem('videoPlayed')) {
-      const observer = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              video.muted = false;
-              video.play().then(() => {
-                sessionStorage.setItem('videoPlayed', 'true');
-                observer.unobserve(video);
-              }).catch(err => console.warn("Autoplay blocked:", err));
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      observer.observe(video);
-    }
-  }
+  
+    video.addEventListener("pause", () => {
+      playBtn.style.display = "block";
+    });
+  
+    // Also allow clicking video itself
+    video.addEventListener("click", () => {
+      if (video.paused) {
+        video.play().catch(err => {
+          video.muted = true;
+          video.play();
+        });
+      } else {
+        video.pause();
+      }
+    });
+  });
+  
 
   // === Subject Toppers ===
   const yearTabs = document.querySelectorAll('.year-tab');
