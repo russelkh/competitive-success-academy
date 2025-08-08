@@ -217,7 +217,7 @@
       <div style="max-height: 400px; overflow-y: auto;">
         {% for f in data.faculties_section %}
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; cursor: pointer;" onclick="loadFaculty('{{ f.id }}')">
-          <img src="{{ f.image }}" class="img-preview" style="max-width: 50px;">
+          <img src="/{{ f.image }}" class="img-preview" style="max-width: 50px;">
           <div>
             <strong>{{ f.name }}</strong><br>
             <small>{{ f.subject }}</small>
@@ -265,18 +265,73 @@
 </script>
 
 <script>
-function loadFaculty(facultyId) {
-  const facultyData = JSON.parse(document.getElementById('faculty-data').textContent);
-  const faculty = facultyData.find(f => f.id === facultyId);
-  if (faculty) {
-    document.getElementById('edit_id').value = faculty.id;
-    document.getElementById('edit_name').value = faculty.name;
-    document.getElementById('edit_subject').value = faculty.subject;
-    document.getElementById('edit_qualification').value = faculty.qualification;
+  function loadFaculty(facultyId) {
+    const facultyData = JSON.parse(document.getElementById('faculty-data').textContent);
+    const faculty = facultyData.find(f => f.id === facultyId);
+    if (faculty) {
+      document.getElementById('edit_id').value = faculty.id;
+      document.getElementById('edit_name').value = faculty.name;
+      document.getElementById('edit_subject').value = faculty.subject;
+      document.getElementById('edit_qualification').value = faculty.qualification;
+    }
   }
-}
-</script>
+  
 
+  
+  function confirmUpdateFaculty(e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Update Faculty?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+      }
+    });
+  }
+  
+  function confirmAddFaculty(e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Add Faculty?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, add'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+      }
+    });
+  }
+  
+  function confirmUpdateAbout(e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Update About Section?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+      }
+    });
+  }
+  
+  window.addEventListener('load', () => {
+    const successMessage = '{{ get_flashed_messages(category_filter=["success"])|first }}';
+    if (successMessage) {
+      Swal.fire({
+        title: 'Success',
+        text: successMessage,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
+  </script>
 
 <!-- About Section -->
 <div class="section-box" id="about_section">
@@ -287,7 +342,7 @@ function loadFaculty(facultyId) {
         <label>Carousel Images</label>
         {% for img in data.about_section.carousel_images %}
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-          <img src="{{ img }}" class="img-preview" style="max-width: 120px;">
+          <img src="/{{ img }}" class="img-preview" style="max-width: 120px;">
           <div>
             <label>Replace Image</label>
             <input type="file" name="replace_image_{{ loop.index0 }}">
@@ -308,88 +363,8 @@ function loadFaculty(facultyId) {
   </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-function loadFaculty(facultyId) {
-  const facultyData = JSON.parse(document.getElementById('faculty-data').textContent);
-  const faculty = facultyData.find(f => f.id === facultyId);
-  if (faculty) {
-    document.getElementById('edit_id').value = faculty.id;
-    document.getElementById('edit_name').value = faculty.name;
-    document.getElementById('edit_subject').value = faculty.subject;
-    document.getElementById('edit_qualification').value = faculty.qualification;
-  }
-}
 
-function confirmDelete(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to undo this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      e.target.submit();
-    }
-  });
-}
 
-function confirmUpdateFaculty(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Update Faculty?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, update'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      e.target.submit();
-    }
-  });
-}
-
-function confirmAddFaculty(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Add Faculty?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, add'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      e.target.submit();
-    }
-  });
-}
-
-function confirmUpdateAbout(e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Update About Section?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, update'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      e.target.submit();
-    }
-  });
-}
-
-window.addEventListener('load', () => {
-  const successMessage = '{{ get_flashed_messages(category_filter=["success"])|first }}';
-  if (successMessage) {
-    Swal.fire({
-      title: 'Success',
-      text: successMessage,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
-  }
-});
-</script>
 
 
 
@@ -409,7 +384,7 @@ window.addEventListener('load', () => {
         <!-- Delete Button -->
         <button type="button" class="delete-topper-btn" data-index="{{ loop.index0 }}" style="position: absolute; top: 10px; right: 10px; background: crimson; color: white; border: none; padding: 0.4rem 0.6rem; border-radius: 4px; cursor: pointer;">✕</button>
 
-        <img src="{{ s.image }}" class="img-preview" style="width: 100%; max-width: 120px; border-radius: 6px;">
+        <img src="/{{ s.image }}" class="img-preview" style="width: 100%; max-width: 120px; border-radius: 6px;">
         <input type="hidden" name="image_existing_{{ loop.index0 }}" value="{{ s.image }}">
 
         <label>Position</label>
@@ -455,7 +430,7 @@ window.addEventListener('load', () => {
   </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 function getOrdinalSuffix(n) {
   const s = ["th", "st", "nd", "rd"], v = n % 100;
@@ -683,7 +658,7 @@ function deleteSubjectTopper(year) {
     <div class="flex-split" style="flex-wrap: wrap; gap: 2rem;">
       {% for card in data.heads_section.cards %}
       <div style="flex: 1 1 45%; border: 1px solid #ddd; padding: 1rem; border-radius: 8px; position: relative;">
-        <img src="{{ card.image }}" class="img-preview" style="max-width: 100px;">
+        <img src="/{{ card.image }}" class="img-preview" style="max-width: 100px;">
         <input type="hidden" name="image_{{ loop.index0 }}" value="{{ card.image }}">
 
         <label>Name</label>
@@ -739,7 +714,7 @@ function confirmHeadsUpdate(event) {
       <div class="half">
         <label>Left Image</label>
         {% if data.ad_section.left_image %}
-          <img src="{{ data.ad_section.left_image }}" class="img-preview">
+          <img src="/{{ data.ad_section.left_image }}" class="img-preview">
         {% endif %}
         <input type="file" name="left_image">
       </div>
@@ -747,7 +722,7 @@ function confirmHeadsUpdate(event) {
       <div class="half">
         <label>Right Image</label>
         {% if data.ad_section.right_image %}
-          <img src="{{ data.ad_section.right_image }}" class="img-preview">
+          <img src="/{{ data.ad_section.right_image }}" class="img-preview">
         {% endif %}
         <input type="file" name="right_image">
       </div>
@@ -780,7 +755,8 @@ function confirmAdUpdate(event) {
   <div class="album-scroll-container" style="display: flex; overflow-x: auto; gap: 1rem; padding: 1rem;">
     {% for item in data.album %}
     <div class="album-card" style="min-width: 200px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 1rem; position: relative;">
-      <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="Album Image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+      <img src="/{{ item.image }}" alt="Album Image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+
       <p style="margin: 10px 0;">{{ item.caption }}</p>
 
       <form class="update-form" data-id="{{ item.id }}" enctype="multipart/form-data">
@@ -804,7 +780,7 @@ function confirmAdUpdate(event) {
 </div>
 
 <!-- SweetAlert2 Script -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <script>
   // Delete Album Item
@@ -943,25 +919,86 @@ function confirmAdUpdate(event) {
 
 
 
-
 <!-- Hostel Carousel Section -->
 <div class="section-box" id="hostel_carousel_images">
   <h2>Hostel Carousel Images</h2>
-  <form action="/admin/update/hostel_carousel" method="POST" enctype="multipart/form-data">
-    <div style="display: flex; gap: 1rem; overflow-x: auto; padding: 1rem 0;">
-      {% for img in data.hostel_carousel_images %}
-      <div style="min-width: 200px;">
-        <img src="{{ img }}" class="img-preview">
-      </div>
-      {% endfor %}
+  <div style="display: flex; gap: 1rem; overflow-x: auto; padding: 1rem 0;">
+    {% for img in data.hostel_carousel_images %}
+  {% set idx = loop.index0 %}
+    <div style="min-width: 200px; position: relative; text-align: center;">
+      <img src="/{{ img }}" class="img-preview" style="max-width: 200px; max-height: 200px;">
+      <form method="POST" action="/admin/update/hostel_image/{{ idx }}" enctype="multipart/form-data" style="margin-top: 0.5rem;" onsubmit="return confirmUpdate(event)">
+        <input type="file" name="image" required>
+        <button type="submit">Update</button>
+      </form>
+      <form method="POST" action="/admin/delete/hostel_image/{{ idx }}" onsubmit="return confirmDelete(event)">
+        <button type="submit" style="background: crimson; color: white; margin-top: 0.2rem;">Delete</button>
+      </form>
     </div>
-    <label>Replace Carousel Images (Max: 3)</label>
-    <input type="file" name="image_0">
-    <input type="file" name="image_1">
-    <input type="file" name="image_2">
-    <button type="submit">Update Hostel Carousel</button>
+    {% endfor %}
+  </div>
+
+  <hr>
+  <h3>Add New Image</h3>
+  <form method="POST" action="/admin/add/hostel_image" enctype="multipart/form-data" onsubmit="return confirmAdd(event)">
+    <input type="file" name="image" required>
+    <button type="submit">Add Image</button>
   </form>
 </div>
+<!-- SweetAlert2 -->
+
+<script>
+function confirmDelete(e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to undo this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      e.target.submit();
+    }
+  });
+  return false; // optional, but keeps it consistent with most form handlers
+}
+
+
+  function confirmUpdate(e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Confirm Update',
+      text: 'Do you want to update this image?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+      }
+    });
+    return false;
+  }
+
+  function confirmAdd(e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Add New Image?',
+      text: 'This will be added to the carousel',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, add it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+      }
+    });
+    return false;
+  }
+</script>
+
+
 
 
 <!-- Map Section -->
@@ -1012,7 +1049,7 @@ function addRuleField() {
 
     <h4>Contact Info</h4>
     <label>Email</label>
-    <input type="email" name="contact_email" value="{{ data.layout.footer.contact_email }}">
+    <input type="email" name="contact_email" value="{{ data.layout.footer.contact_email }}"style="width: 300px;">
 
     <label>Phone</label>
     <input type="text" name="contact_phone" value="{{ data.layout.footer.contact_phone }}">
@@ -1026,23 +1063,6 @@ function addRuleField() {
     <button type="submit">Update Layout & Footer</button>
   </form>
 </div>
-
-<script>
-function addRuleField() {
-  const container = document.querySelector('#admission_section form > div');
-  const newField = document.createElement('div');
-  newField.style.display = 'flex';
-  newField.style.alignItems = 'center';
-  newField.style.gap = '1rem';
-  newField.innerHTML = `
-    <input type="text" name="rules" placeholder="New rule" style="flex: 1;">
-    <button type="button" onclick="this.parentElement.remove()" style="background: crimson; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
-  `;
-  container.appendChild(newField);
-}
-</script>
-
-
 
 
   </div>
