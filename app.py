@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 from flask_mail import Mail, Message
 import os
@@ -7,6 +5,8 @@ import json
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 import uuid
+from PIL import Image
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/images'
 DATA_FILE = 'data/site_data.json'
@@ -29,9 +29,7 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 mail = Mail(app)
 
 SITE_DATA_PATH = 'data/site_data.json'
-UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 0.5 * 1024 * 1024  # 500 KB limit
 
 # === Load & Save Site Data ===
 def load_site_data():
@@ -41,6 +39,13 @@ def load_site_data():
 def save_site_data(data):
     with open(SITE_DATA_PATH, 'w') as f:
         json.dump(data, f, indent=2)
+
+# === Global session protection for /admin/* routes ===
+@app.before_request
+def admin_protect():
+    if request.path.startswith('/admin/') and request.endpoint != 'admin_login':
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
 
 # === Inject layout ===
 @app.context_processor
@@ -73,15 +78,26 @@ def admission():
         hostel_features=site_data.get('hostel_features', [])
     )
 
+
 @app.route('/album')
 def album():
     site_data = load_site_data()
     return render_template('album.html', album=site_data.get('album', []))
+@app.route('/api/album')
+def api_album():
+    data = load_site_data()
+    return jsonify({"images": data.get("album", [])})
+
 
 @app.route('/faculties')
 def faculties():
     site_data = load_site_data()
     return render_template('faculties.html', faculties_section=site_data.get('faculties_section', []))
+@app.route('/api/faculties')
+def api_faculties():
+    site_data = load_site_data()
+    return jsonify(site_data.get('faculties_section', []))
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
@@ -99,27 +115,27 @@ def admin_login():
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
     site_data = load_site_data()
     return render_template('admin_dashboard.html', data=site_data)
 
-# === Utility for saving images ===
+# === Utility for saving and compressing uploaded images ===
 def save_uploaded_file(file):
     filename = secure_filename(file.filename)
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    filepath = os.path.join("static/images", filename)
     file.save(filepath)
+
+    # Try to compress the image
+    try:
+        img = Image.open(filepath)
+        img.save(filepath, optimize=True, quality=75)  # adjust quality if needed
+    except Exception as e:
+        print("Compression skipped:", e)  # not an image or failed
+
     return filepath
-
-
 
 # === Dynamic JSON update (textarea based) ===
 @app.route('/admin/update/<section>', methods=['POST'])
 def update_section(section):
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
     try:
         updated_data = request.form['section_data']
         parsed_data = json.loads(updated_data)
@@ -134,30 +150,43 @@ def update_section(section):
 
     return redirect(url_for('admin_dashboard', updated='true'))
 
-
-
+from PIL import Image
 
 @app.route('/admin/update/about_section', methods=['POST'])
 def update_about_section():
     try:
         site_data = load_site_data()
 
+        # Update title and paragraphs
         site_data['about_section']['title'] = request.form['title']
         site_data['about_section']['paragraphs'] = request.form.getlist('paragraphs')
 
-        # Handle file uploads
-        if 'carousel_images' in request.files:
-            new_images = []
-            for file in request.files.getlist('carousel_images'):
-                if file.filename:
-                    filepath = save_uploaded_file(file)
-                    if filepath:
-                        new_images.append(filepath)
-            if new_images:
-                site_data['about_section']['carousel_images'] = new_images
+        # Handle image replacements individually
+        existing_images = site_data['about_section'].get('carousel_images', [])
+        updated_images = existing_images[:]
+
+        for idx in range(len(existing_images)):
+            file_key = f"replace_image_{idx}"
+            if file_key in request.files and request.files[file_key].filename:
+                file = request.files[file_key]
+                filename = secure_filename(file.filename)
+                file_path = os.path.join("static/images", filename)
+                file.save(file_path)
+
+                # Compress uploaded image (optional)
+                try:
+                    img = Image.open(file_path)
+                    img.save(file_path, optimize=True, quality=75)
+                except Exception as e:
+                    print("Image compression skipped:", e)
+
+                updated_images[idx] = f"static/images/{filename}"  # Save full path for preview
+
+        site_data['about_section']['carousel_images'] = updated_images
 
         save_site_data(site_data)
         flash('About section updated successfully!', 'success')
+
     except Exception as e:
         flash(f'Error updating about section: {str(e)}', 'error')
 
@@ -166,9 +195,6 @@ def update_about_section():
 
 @app.route('/admin/update/heads_section', methods=['POST'])
 def update_heads_section():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
     try:
         updated_cards = []
         i = 0
@@ -212,8 +238,7 @@ def ordinal(n):
 
 @app.route("/admin/update/state_toppers", methods=["POST"])
 def update_state_toppers():
-    with open("data/site_data.json", "r") as f:
-        data = json.load(f)
+    data = load_site_data()
 
     updated = []
     index = 0
@@ -255,25 +280,14 @@ def update_state_toppers():
         index += 1
 
     data["state_toppers"] = updated
-
-    with open("data/site_data.json", "w") as f:
-        json.dump(data, f, indent=2)
+    save_site_data(data)
 
     flash("✅ State Toppers Updated Successfully", "success")
     return redirect(url_for('admin_dashboard', _anchor='tab-state_toppers'))
 
-
-def ordinal(n):
-    if 10 <= n % 100 <= 20:
-        suffix = 'th'
-    else:
-        suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')
-    return f"{n}{suffix} Position"
-
 @app.route("/admin/update/state_topper_add", methods=["POST"])
 def add_state_topper():
-    with open("data/site_data.json", "r") as f:
-        data = json.load(f)
+    data = load_site_data()
 
     name = request.form.get("new_name", "").strip()
     rank_input = request.form.get("new_rank", "").strip()
@@ -300,19 +314,14 @@ def add_state_topper():
     }
 
     data.setdefault("state_toppers", []).append(new_topper)
-
-    with open("data/site_data.json", "w") as f:
-        json.dump(data, f, indent=2)
+    save_site_data(data)
 
     flash("✅ New State Topper Added", "success")
     return redirect(url_for('admin_dashboard', _anchor='tab-state_toppers'))
 
-
-
 @app.route("/admin/delete/state_topper/<int:index>", methods=["POST"])
 def delete_state_topper(index):
-    with open("data/site_data.json", "r") as f:
-        data = json.load(f)
+    data = load_site_data()
 
     try:
         image_path = data["state_toppers"][index]["image"].lstrip("/")
@@ -321,8 +330,7 @@ def delete_state_topper(index):
             os.remove(full_image_path)
 
         data["state_toppers"].pop(index)
-        with open("data/site_data.json", "w") as f:
-            json.dump(data, f, indent=2)
+        save_site_data(data)
 
         flash("✅ State Topper Deleted", "success")
     except IndexError:
@@ -331,8 +339,6 @@ def delete_state_topper(index):
         flash(f"❌ Error deleting image: {e}", "error")
 
     return redirect(url_for('admin_dashboard'))
-
-
 
 @app.route('/admin/update/subject_toppers', methods=['POST'])
 def update_subject_toppers():
@@ -368,7 +374,6 @@ def update_subject_toppers():
 
     return redirect(url_for('admin_dashboard', _anchor='tab-subject_toppers'))
 
-
 @app.route('/admin/update/subject_toppers_add', methods=['POST'])
 def add_subject_topper():
     try:
@@ -397,7 +402,6 @@ def add_subject_topper():
 
     return redirect(url_for('admin_dashboard', _anchor='tab-subject_toppers'))
 
-
 @app.route('/admin/delete/subject_topper/<year>', methods=['POST'])
 def delete_subject_topper(year):
     try:
@@ -413,10 +417,6 @@ def delete_subject_topper(year):
         flash(f"❌ Error deleting subject topper: {str(e)}", "error")
 
     return redirect(url_for('admin_dashboard', _anchor='tab-subject_toppers'))
-
-
-
-
 
 @app.route('/admin/update/ad_section', methods=['POST'])
 def update_ad_section():
@@ -448,7 +448,6 @@ def update_ad_section():
 
     return redirect(url_for('admin_dashboard', _anchor='tab-ad_section'))
 
-
 @app.route('/admin/update/faculty_edit', methods=['POST'])
 def update_faculty():
     try:
@@ -477,8 +476,7 @@ def add_faculty():
     try:
         site_data = load_site_data()
         existing_ids = [int(f['id'].split('-')[1]) for f in site_data['faculties_section'] if f['id'].startswith('T-') and f['id'].split('-')[1].isdigit()]
-       
-
+        new_id = f"T-{max(existing_ids)+1 if existing_ids else 1}"
 
         image_path = ''
         if 'image' in request.files:
@@ -514,56 +512,50 @@ def delete_faculty(faculty_id):
         flash(f'Error deleting faculty: {str(e)}', 'error')
     return redirect(url_for('admin_dashboard', _anchor='tab-faculties_section'))
 
-import uuid
-from werkzeug.utils import secure_filename
-
-# Helper to load/save JSON
-def load_data():
-    with open(DATA_FILE, 'r') as f:
-        return json.load(f)
-
-def save_data(data):
-    with open(DATA_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
-
-# === ROUTES ===
-
+# Album routes use load_site_data/save_site_data now for consistency!
 @app.route('/admin/album', methods=['GET'])
 def admin_album():
-    data = load_data()
+    data = load_site_data()
     return render_template('admin_dashboard.html', site_data=data)
-
 
 @app.route('/admin/album/add', methods=['POST'])
 def add_album_item():
-    data = load_data()
+    data = load_site_data()
     album = data.get("album", [])
 
     caption = request.form.get("caption", "").strip()
-    image_file = request.files.get("image")
+    file_key = "image"
 
-    if not image_file:
+    if file_key in request.files and request.files[file_key].filename:
+        file = request.files[file_key]
+        filename = secure_filename(file.filename)
+        file_path = os.path.join("static/images", filename)
+        file.save(file_path)
+
+        # Compress image (optional)
+        try:
+            img = Image.open(file_path)
+            img.save(file_path, optimize=True, quality=75)
+        except Exception as e:
+            print("Compression skipped:", e)
+
+        new_id = f"A-{str(uuid.uuid4())[:8]}"
+        album.append({
+            "id": new_id,
+            "image": f"static/images/{filename}",  # ✅ store correct relative path
+            "caption": caption
+        })
+
+        data["album"] = album
+        save_site_data(data)
+        return jsonify({"success": True, "id": new_id})
+    else:
         return "Image is required", 400
-
-    filename = secure_filename(image_file.filename)
-    image_path = os.path.join("static/images", filename)
-    image_file.save(image_path)
-
-    new_id = f"A-{str(uuid.uuid4())[:8]}"
-    album.append({
-        "id": new_id,
-        "image": filename,  # Store only filename
-        "caption": caption
-    })
-
-    data["album"] = album
-    save_data(data)
-    return jsonify({"success": True, "id": new_id})
 
 
 @app.route('/admin/album/delete/<album_id>', methods=['POST'])
 def delete_album_item(album_id):
-    data = load_data()
+    data = load_site_data()
     album = data.get("album", [])
     updated_album = []
 
@@ -580,13 +572,12 @@ def delete_album_item(album_id):
             updated_album.append(item)
 
     data["album"] = updated_album
-    save_data(data)
+    save_site_data(data)
     return jsonify({"success": True})
-
 
 @app.route('/admin/album/update/<album_id>', methods=['POST'])
 def update_album_item(album_id):
-    data = load_data()
+    data = load_site_data()
     album = data.get("album", [])
     new_caption = request.form.get("caption", "").strip()
     image_file = request.files.get("image")
@@ -620,16 +611,11 @@ def update_album_item(album_id):
             break
 
     data["album"] = album
-    save_data(data)
+    save_site_data(data)
     return jsonify({"success": True})
-
-
 
 @app.route('/admin/update/admission_section', methods=['POST'])
 def update_admission_section():
-    if 'admin' not in session:
-        return redirect(url_for('admin_login'))  # Optional security
-
     rules_raw = request.form.get('rules', '')
     rules = [line.strip() for line in rules_raw.splitlines() if line.strip()]
 
@@ -638,72 +624,136 @@ def update_admission_section():
     save_site_data(data)
 
     flash("✅ Admission rules updated successfully.")
-    return redirect(url_for('admin_dashboard'))  # ✅ NOT 'admin_login'
-
-
-
-
-
-
-
-@app.route('/admin/update/hostel_carousel', methods=['POST'])
-def update_hostel_carousel():
+    return redirect(url_for('admin_dashboard'))
+# Individual hostel image update
+@app.route('/admin/update/hostel_image/<int:index>', methods=['POST'])
+def update_hostel_image(index):
     try:
-        updated_images = []
-        i = 0
-        while f'image_{i}' in request.files:
-            file = request.files[f'image_{i}']
-            if file.filename:
-                filepath = save_uploaded_file(file)
-                if filepath:
-                    updated_images.append(filepath)
-            i += 1
-        
-        if updated_images:
-            data['hostel_carousel_images'] = updated_images
-            save_data()
-            flash('Hostel carousel updated successfully!', 'success')
+        data = load_site_data()
+        images = data.get('hostel_carousel_images', [])
+
+        if index >= len(images):
+            flash("Invalid image index", "error")
+            return redirect(url_for('admin_dashboard', _anchor='tab-hostel_carousel_images'))
+
+        file = request.files.get("image")
+        if file and file.filename:
+            # Delete old file
+            old_path = images[index].lstrip("/")
+            full_old = os.path.join(os.getcwd(), old_path)
+            if os.path.exists(full_old):
+                os.remove(full_old)
+
+            # Save new file
+            filename = secure_filename(file.filename)
+            new_path = os.path.join("static/images", filename)
+            file.save(new_path)
+
+            # Update JSON
+            images[index] = f"/static/images/{filename}"
+            data['hostel_carousel_images'] = images
+            save_site_data(data)
+
+            flash("✅ Image updated", "success")
         else:
-            flash('No new images were uploaded', 'info')
+            flash("❌ No file uploaded", "error")
+
     except Exception as e:
-        flash(f'Error updating hostel carousel: {str(e)}', 'error')
-    
+        flash(f"❌ Error updating image: {str(e)}", "error")
+
     return redirect(url_for('admin_dashboard', _anchor='tab-hostel_carousel_images'))
+
+
+# Delete individual hostel image
+@app.route('/admin/delete/hostel_image/<int:index>', methods=['POST'])
+def delete_hostel_image(index):
+    try:
+        data = load_site_data()
+        images = data.get('hostel_carousel_images', [])
+
+        if index < len(images):
+            img_path = images[index].lstrip("/")
+            full_path = os.path.join(os.getcwd(), img_path)
+            if os.path.exists(full_path):
+                os.remove(full_path)
+            images.pop(index)
+            data['hostel_carousel_images'] = images
+            save_site_data(data)
+            flash("✅ Image deleted", "success")
+        else:
+            flash("❌ Invalid index", "error")
+
+    except Exception as e:
+        flash(f"❌ Error deleting image: {str(e)}", "error")
+
+    return redirect(url_for('admin_dashboard', _anchor='tab-hostel_carousel_images'))
+
+
+# Add new hostel image
+@app.route('/admin/add/hostel_image', methods=['POST'])
+def add_hostel_image():
+    try:
+        data = load_site_data()
+        file = request.files.get("image")
+
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            path = os.path.join("static/images", filename)
+            file.save(path)
+
+            data.setdefault("hostel_carousel_images", []).append(f"/static/images/{filename}")
+            save_site_data(data)
+
+            flash("✅ New hostel image added", "success")
+        else:
+            flash("❌ No file uploaded", "error")
+
+    except Exception as e:
+        flash(f"❌ Error adding image: {str(e)}", "error")
+
+    return redirect(url_for('admin_dashboard', _anchor='tab-hostel_carousel_images'))
+
+
+
+
 
 @app.route('/admin/update/map_section', methods=['POST'])
 def update_map_section():
     try:
+        data = load_site_data()
         data['map_section']['title'] = request.form['title']
         data['map_section']['iframe_src'] = request.form['iframe_src']
-        save_data()
+        save_site_data(data)
         flash('Map section updated successfully!', 'success')
     except Exception as e:
         flash(f'Error updating map section: {str(e)}', 'error')
-    
+
     return redirect(url_for('admin_dashboard', _anchor='tab-map_section'))
 
 @app.route('/admin/update/layout', methods=['POST'])
 def update_layout():
     try:
+        data = load_site_data()
         # Update social links
         data['layout']['footer']['social_links']['facebook'] = request.form['social_facebook']
         data['layout']['footer']['social_links']['twitter'] = request.form['social_twitter']
         data['layout']['footer']['social_links']['instagram'] = request.form['social_instagram']
-        
+
         # Update contact info
         data['layout']['footer']['contact_email'] = request.form['contact_email']
         data['layout']['footer']['contact_phone'] = request.form['contact_phone']
         data['layout']['footer']['contact_address'] = request.form['contact_address']
-        
+
         # Update copyright
         data['layout']['footer']['copyright'] = request.form['copyright']
-        
-        save_data()
+
+        save_site_data(data)
         flash('Layout & footer updated successfully!', 'success')
     except Exception as e:
         flash(f'Error updating layout: {str(e)}', 'error')
-    
+
     return redirect(url_for('admin_dashboard', _anchor='tab-layout'))
+
 @app.route('/admin/logout')
 def admin_logout():
     session.pop('admin_logged_in', None)
