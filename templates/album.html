@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CSA School Album</title>
   <style>
-    body {
+    /* --- General Body --- */
+body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  /* Use local file path */
-  background: url('/static/images/background-image\ for\ album.png') no-repeat center center fixed;
+  background: url('/static/images/background-image for album.png') no-repeat center center;
   background-size: cover;
+  background-attachment: fixed;
   overflow-x: hidden;
+  color: #333;
+  position: relative;
+  touch-action: pan-y; /* allows swipe gestures on mobile */
 }
 
-/* White overlay for better readability */
+/* White overlay for readability */
 body::before {
   content: '';
   position: fixed;
@@ -22,166 +26,185 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.70); /* Adjust opacity as needed */
+  background: rgba(255, 255, 255, 0.7);
   z-index: -1;
 }
 
-    .back-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #fff;
-      background-color: #A51C30;
-      border-radius: 30px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-      text-decoration: none;
-      z-index: 10;
-      transition: transform 0.3s, background-color 0.3s;
-    }
-    .back-btn:hover {
-      background-color: #911625;
-      transform: scale(1.05);
-    }
-
-    .logo {
-      text-align: center;
-      padding: 20px 0 10px;
-    }
-    .logo img {
-      max-height: 80px;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin: 10px 0 40px;
-      color: #333;
-    }
-
-    .carousel-container {
-      position: relative;
-      max-width: 1000px;
-      margin: 0 auto;
-      overflow: hidden;
-    }
-
-    .carousel {
-      display: flex;
-      transition: transform 0.6s ease-in-out;
-    }
-
-    .carousel-item-wrapper {
-      min-width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-    /* Default height (for larger screens) */
-    .carousel-item {
-      position: relative;
-      width: 90%;
-      height: 550px; /* Increased from 500px */
-      overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-    /* Mobile responsiveness */
-    @media screen and (max-width: 600px) {
-      .carousel-item {
-        height: 400px; /* Increased from 300px */
-      }
-    }
-    .carousel-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(0.85);
-      transform-origin: center center;
-      transition: transform 0.8s ease-in-out;
-    }/* First image should always be full size (no scaling) */
-    .carousel-item-wrapper:first-child .carousel-item img {
-    transform: scale(1);
-    }
-
-    /* Active state for other images */
-    .carousel-item-wrapper.active:not(:first-child) .carousel-item img {
-    transform: scale(1);
-    }
-
-    /* Caption transition for all */
-    .carousel-item-wrapper.active .caption {
-    bottom: 0;
-    }
-    .caption {
-      position: absolute;
-      bottom: -50px;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      padding: 12px;
-      font-weight: bold;
-      font-size: 1.5rem;
-      text-align: center;
-      transition: bottom 0.8s ease-in-out;
-    }
-
-    /* Caption slides up for active slide */
-    .carousel-item-wrapper.active .caption {
-      bottom: 0;
-    }
-
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2.5rem;
-      background-color: white;
-      border: none;
-      cursor: pointer;
-      padding: 5px 15px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s;
-      z-index: 5;
-    }
-    .nav-btn:hover { background-color: #ddd; }
-    .nav-btn.left { left: 5px; }
-    .nav-btn.right { right: 5px; }
-
-    @media screen and (max-width: 600px) {
-      .carousel-item {
-        height: 300px;
-      }
-    }
-    @media screen and (max-width: 600px) {
-  .logo {
-    margin-top: 80px; /* or more if needed to clear the button */
-  }
+/* --- Back Button --- */
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #A51C30;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-decoration: none;
+  z-index: 10;
+  transition: transform 0.3s, background-color 0.3s;
 }
+.back-btn:hover {
+  background-color: #911625;
+  transform: scale(1.05);
+}
+
+/* --- Logo --- */
+.logo {
+  text-align: center;
+  padding: 20px 0 10px;
+}
+.logo img {
+  max-height: 80px;
+}
+
+/* --- Page Title --- */
 h2 {
   text-align: center;
   font-size: 2.5rem;
-  margin: 10px auto 40px; /* 'auto' for horizontal centering */
+  margin: 10px auto 40px;
   color: #333;
   padding-bottom: 10px;
   position: relative;
-  width: fit-content; /* Ensures underline matches text width */
+  width: fit-content;
 }
-
 h2::after {
   content: '';
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%; /* Full width of text */
+  width: 100%;
   height: 4px;
-  background-color: #A51C30; /* CSA red */
+  background-color: #A51C30;
   border-radius: 2px;
+}
+
+/* --- Carousel Container --- */
+.carousel-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Carousel Flexbox */
+.carousel {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  touch-action: pan-x; /* enables horizontal swipe */
+}
+
+.carousel-item-wrapper {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.carousel-item {
+  position: relative;
+  width: 90%;
+  height: 550px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.8s ease-in-out;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(0.85);
+  transform-origin: center center;
+  transition: transform 0.8s ease-in-out;
+}
+
+/* First image always full size */
+.carousel-item-wrapper:first-child .carousel-item img {
+  transform: scale(1);
+}
+
+/* Active slide scaling */
+.carousel-item-wrapper.active:not(:first-child) .carousel-item img {
+  transform: scale(1);
+}
+
+/* --- Caption --- */
+.caption {
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  transition: bottom 0.8s ease-in-out;
+}
+.carousel-item-wrapper.active .caption {
+  bottom: 0;
+}
+
+/* --- Navigation Buttons --- */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.3s;
+  z-index: 5;
+}
+.nav-btn.left { left: 5px; }
+.nav-btn.right { right: 5px; }
+
+/* --- Media Queries --- */
+@media screen and (max-width: 992px) {
+  .carousel-item {
+    height: 450px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    background-size: 100% 100%; /* stretch background fully */
+    background-position: top center;
+    background-attachment: scroll;
+  }
+  .carousel-item {
+    width: 95%;
+    height: 350px;
+    border-radius: 12px;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  .nav-btn {
+    font-size: 2rem;
+    padding: 5px 10px;
+  }
+  .logo img {
+    max-height: 60px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .carousel-item {
+    height: 300px;
+  }
+  .logo {
+    margin-top: 80px; /* push below back button */
+  }
 }
 
   </style>
@@ -291,6 +314,28 @@ fetch('/api/album')
   .catch(err => {
     console.error('Error loading album data:', err);
   });
+  // --- Swipe support ---
+let startX = 0;
+let endX = 0;
+
+carousel.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+
+carousel.addEventListener('touchmove', (e) => {
+  endX = e.touches[0].clientX;
+});
+
+carousel.addEventListener('touchend', () => {
+  const deltaX = endX - startX;
+  if (Math.abs(deltaX) > 50) { // swipe threshold
+    if (deltaX > 0) prevSlide();  // swipe right → previous
+    else nextSlide();             // swipe left → next
+  }
+  startX = 0;
+  endX = 0;
+});
+
 </script>
 
 </html>
