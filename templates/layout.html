@@ -47,11 +47,16 @@
     <div class="container">
       <div class="footer-content">
         <div class="social-links">
-          <a href="{{ layout.footer.social_links.facebook }}" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-          <a href="{{ layout.footer.social_links.twitter }}" class="social-icon"><i class="fab fa-twitter"></i></a>
-          <a href="{{ layout.footer.social_links.instagram }}" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <p class="socials-text">Our Socials</p>
+          <div class="icons-row">
+            <a href="{{ layout.footer.social_links.facebook }}" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="{{ layout.footer.social_links.twitter }}" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="{{ layout.footer.social_links.instagram }}" class="social-icon"><i class="fab fa-instagram"></i></a>
+          </div>
         </div>
+        
         <div class="contact-info">
+         
           <p><i class="fas fa-envelope"></i> {{ layout.footer.contact_email }}</p>
           <p><i class="fas fa-phone"></i> {{ layout.footer.contact_phone }}</p>
           <p><i class="fas fa-map-marker-alt"></i> {{ layout.footer.contact_address }}</p>
