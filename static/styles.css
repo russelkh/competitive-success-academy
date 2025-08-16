@@ -1,4 +1,9 @@
 /* Global Styles */
+html, body {
+  overscroll-behavior: none; /* Prevent background reveal */
+  overflow-x: hidden; /* Just in case horizontal scroll happens */
+}
+
 :root {
   --primary-color: #a51c30; /* Harvard-like red */
   --secondary-color: #222;
@@ -16,6 +21,9 @@
 }
 
 body {
+  position: static;
+  width: 100%;
+  overflow-y: auto;
   font-family: 'Poppins', sans-serif;
   color: var(--text-color);
   line-height: 1.6;
@@ -63,7 +71,8 @@ h1, h2, h3, h4 {
   transition: var(--transition);
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 0.9rem;
+  font-size: 0.9rem
+
 }
 
 .btn-primary {
@@ -169,14 +178,208 @@ h1, h2, h3, h4 {
   display: none;
   font-size: 1.5rem;
   cursor: pointer;
-  margin-left: 15px; /* Add this line */
-  padding: 10px; /* Add this for better touch area */
+  margin-left: 15px; 
+  padding: 10px; 
 }
-/* Hero Section */
+
+
+
+
+
+/* === HEADS SECTION === */
+.heads-section {
+  padding: 80px 0;
+  position: relative;
+  background-color: #ffffff;
+  z-index: 2; /* Stacks above hero section */
+}
+
+/* Section title */
+.heads-section .section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* Container */
+.heads-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Individual card */
+.head-card {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Head image circular style */
+.head-image {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid var(--primary-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.head-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Head name & role */
+.head-name h1,
+.head-role {
+  margin: 5px 0;
+}
+
+/* Tooltip for middle image */
+.tooltip-popup {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: black;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 2000;
+}
+
+.head-card.middle .head-image:hover .tooltip-popup {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide-in Panels */
+.head-popup {
+  position: fixed;
+  background: white;
+  color: black;
+  padding: 30px;
+  width: 50vw;
+  height: calc(100vh - 100px);
+  top: 100px;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* Left triggers right panel */
+.popup-right {
+  right: 50%;
+  transform: translateX(-100%);
+}
+
+.head-card.left .head-image:hover ~ #popup-right {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Right triggers left panel */
+.popup-left {
+  left: 50%;
+  transform: translateX(100%);
+}
+
+.head-card.right .head-image:hover ~ #popup-left {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 768px) {
+  /* Flex layout stacked for mobile */
+  .heads-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .head-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Tooltip full width */
+  .tooltip-popup {
+    width: 90%;
+    padding: 15px;
+    font-size: 14px;
+    bottom: auto;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Popups full width & centered, disable slide-in */
+  .head-popup {
+    width: 90vw;
+    height: auto;
+    max-height: 80vh;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  /* Disable hover slide-ins */
+  .head-card.left .head-image:hover ~ #popup-right,
+  .head-card.right .head-image:hover ~ #popup-left,
+  .head-card.middle .head-image:hover .tooltip-popup {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Show on click when .active is applied */
+  .tooltip-popup.active,
+  .head-popup.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .head-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .tooltip-popup {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+
+/* Hero Section - with Harvard-style parallax scroll */
 .hero {
   height: 100vh;
   min-height: 600px;
-  background: url('https://cdn.jsdelivr.net/gh/russelkh/school-media@main/images%20copy/school%20banner%201.jpeg') no-repeat center center / cover;
   position: relative;
   display: flex;
   align-items: center;
@@ -184,15 +387,30 @@ h1, h2, h3, h4 {
   text-align: center;
   color: white;
   margin-top: 80px;
+  overflow: hidden;
 }
 
+/* Parallax background layer */
+.hero-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://cdn.jsdelivr.net/gh/russelkh/school-media@main/images%20copy/school%20banner%201.jpeg') no-repeat center center / cover;
+  z-index: -2;
+  will-change: transform;
+}
+
+/* Overlay for readability */
 .hero-overlay {
   position: absolute;
-  top: -10;
+  top: 0; /* fixed from -10 to 0 */
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
 
 .hero-content {
@@ -220,6 +438,19 @@ h1, h2, h3, h4 {
   gap: 20px;
   animation: fadeIn 2.5s ease-in-out;
 }
+
+/* Smooth overlap into next section */
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--white) 100%);
+  pointer-events: none;
+}
+
 
 .btn-album {
   position: absolute;
@@ -267,24 +498,7 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* About Section */
-.about-image.carousel {
-  position: relative;
-  height: 300px; /* Fixed height */
-  min-height: unset;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .about-image.carousel {
-    height: 250px !important;
-    margin-bottom: 20px;
-  }
-  .carousel-img {
-    opacity: 1 !important;
-  }
-}
-
+/* --- About Section --- */
 .about-section {
   padding: 80px 0;
   background-color: var(--light-color);
@@ -309,6 +523,7 @@ h1, h2, h3, h4 {
 
 .about-image {
   flex: 1;
+  position: relative;
 }
 
 .about-image img {
@@ -319,20 +534,15 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow);
 }
 
-.carousel {
-  position: relative;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-}
-
+/* Carousel */
 .about-image.carousel {
   position: relative;
-  flex: 1;
   height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
 }
 
-/* 🔄 Carousel images */
 .carousel-img {
   position: absolute;
   top: 0;
@@ -354,7 +564,7 @@ h1, h2, h3, h4 {
   animation: fadeIn 1s ease-in-out;
 }
 
-/* 🔁 Fade animation */
+/* Carousel Fade Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -366,106 +576,121 @@ h1, h2, h3, h4 {
   }
 }
 
-
-/* Heads Section - Circular Images with 3D Hover */
-.heads-section {
-  padding: 80px 0;
-  position: relative;
+/* --- MOBILE RESPONSIVE FIXES --- */
+@media (max-width: 992px) {
+  .about-content {
+    flex-direction: column;
+  }
+  .about-text {
+    max-height: none;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
 }
 
-.heads-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-  gap: 10px;
+@media (max-width: 768px) {
+  .about-container,
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text,
+  .about-image {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-text {
+    padding-right: 0;
+  }
+
+  .about-image.carousel {
+    width: 90%;
+    height: 250px;
+    margin: 20px auto;
+  }
+
+  .carousel-img {
+    opacity: 1 !important; /* Ensure visible on mobile */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: opacity 1s ease-in-out;
+    animation: none;
+  }
+
+  .carousel-img.active {
+    z-index: 2;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  section, .section {
+    padding: 20px 10px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
-.head-card {
-  text-align: center;
-  flex: 1;
-  position: relative;
-  cursor: pointer;
+
+@media (max-width: 768px) {
+  .about-container,
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text,
+  .about-image {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-text {
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+
+  /* Carousel / image container nearly full width */
+  .about-image.carousel {
+    width: 95%;          /* nearly full width */
+    height: 250px;       /* fixed height */
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  /* Make image fully cover container without cutting too much */
+  .about-image.carousel img,
+  .carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* fills container, keeps proportions */
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    top: 0;
+    left: 0;
+    opacity: 1 !important;
+    transition: opacity 1s ease-in-out;
+    animation: none;
+  }
+
+  .carousel-img.active {
+    z-index: 2;
+    animation: fadeIn 1s ease-in-out;
+  }
 }
 
-.head-image {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid var(--primary-color);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-/* Tooltip for middle image */
-.tooltip-popup {
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  color: black;
-  padding: 20px;
-  width: 300px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 2000;
-}
-
-.head-card.middle .head-image:hover .tooltip-popup {
-  opacity: 1;
-  pointer-events: auto;
-}
-/* Slide-in Panels */
-.head-popup {
-  position: fixed;
-  background: white;
-  color: black;
-  padding: 30px;
-  width: 50vw;
-  height: calc(100vh - 100px);
-  top: 100px;
-  z-index: 2000; /* <- was 999 */
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  overflow-y: auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-}
-
-/* Left triggers right panel */
-.popup-right {
-  right: 50%;
-  transform: translateX(-100%);
-}
-.head-card.left .head-image:hover ~ #popup-right {
-  transform: translateX(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Right triggers left panel */
-.popup-left {
-  left: 50%;
-  transform: translateX(100%);
-}
-
-.head-card.right .head-image:hover ~ #popup-left {
-  transform: translateX(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-.head-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
 
 
 
@@ -669,7 +894,6 @@ h1, h2, h3, h4 {
 .ad-video {
   flex: 1.5;
   padding: 0 20px;
-  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -679,7 +903,7 @@ h1, h2, h3, h4 {
 .video-wrapper {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16/9;
   background: black;
   border-radius: 12px;
   overflow: hidden;
@@ -695,25 +919,22 @@ h1, h2, h3, h4 {
   cursor: pointer;
 }
 
-/* Custom Play Button */
+/* Overlay Play Button */
 .custom-play-button {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  background: rgba(0, 0, 0, 0.6) url('https://img.icons8.com/ios-filled/50/ffffff/play.png') center center no-repeat;
-  background-size: 32px 32px;
-  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background: url('https://img.icons8.com/ios-filled/100/ffffff/play--v1.png') center/contain no-repeat;
   cursor: pointer;
-  transition: background 0.3s;
-  z-index: 10; /* ✅ Ensure clickable */
-  pointer-events: auto; /* ✅ Allow clicks */
+  opacity: 0.8;
+  transition: opacity 0.3s;
 }
 
 .custom-play-button:hover {
-  background-color: rgba(255, 0, 0, 0.8);
+  opacity: 1;
 }
 
 /* Custom Controls Bar */
@@ -730,7 +951,7 @@ h1, h2, h3, h4 {
   gap: 10px;
   opacity: 0;
   transition: opacity 0.3s;
-  pointer-events: none; /* ✅ Won't block clicks unless active */
+  pointer-events: none;
 }
 
 .video-wrapper:hover .video-controls {
@@ -746,7 +967,7 @@ h1, h2, h3, h4 {
   cursor: pointer;
 }
 
-.video-wrapper.playing .play-pause-btn {
+.playing .play-pause-btn {
   background-image: url('https://img.icons8.com/ios-filled/50/ffffff/pause.png');
 }
 
@@ -800,17 +1021,17 @@ h1, h2, h3, h4 {
 
   .ad-image {
     width: 100%;
-    height: 300px;
+    height: 250px;
   }
 
   .ad-video {
     width: 100%;
     padding: 0;
-    height: auto;
   }
 
   .video-wrapper {
-    height: 250px;
+    aspect-ratio: 16/9;
+    height: auto;
   }
 }
 
@@ -828,8 +1049,11 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow);
 }
 
+
+
 /* Footer */
 .footer {
+  
   background-color: var(--secondary-color);
   color: white;
   padding: 60px 0 20px;
@@ -843,7 +1067,35 @@ h1, h2, h3, h4 {
 
 .social-links {
   display: flex;
-  gap: 50px;
+  flex-direction: column; /* stack title above icons */
+  align-items: center; /* center everything horizontally */
+  gap: 30px; /* space between title and icons */
+}
+
+.socials-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.socials-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* adjust distance from text */
+  width: 110px; /* underline length */
+  height: 3px;  /* thickness */
+  background-color: red; /* underline color */
+  border-radius: 2px; /* rounded edges */
+}
+
+
+.social-links .icons-row {
+  display: flex; /* horizontal row of icons */
+  gap: 50px; /* spacing between icons */
 }
 
 .social-icon {
@@ -860,9 +1112,12 @@ h1, h2, h3, h4 {
   filter: drop-shadow(0 0 8px rgba(165, 28, 48, 0.6));
 }
 
+
 .contact-info p {
+  white-space: pre-line; /* respects \n if present */
   margin-bottom: 15px;
   display: flex;
+  flex-wrap: wrap;       /* allows wrapping */
   align-items: center;
 }
 
@@ -870,6 +1125,58 @@ h1, h2, h3, h4 {
   margin-right: 10px;
   color: var(--primary-color);
 }
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+    margin: 0 auto;
+    padding: 0 10px; /* prevent overflow */
+  }
+
+  .social-links {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .social-links .icons-row {
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .socials-text::after {
+    left: 50%;
+    transform: translateX(-50%); /* center underline */
+    width: 80px; /* shorter on mobile */
+  }
+
+  .contact-info {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-info p {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .contact-info p span {
+    min-width: calc(33% - 10px); /* 3 numbers per line */
+    margin-bottom: 5px;
+    text-align: center; /* center numbers */
+  }
+}
+
 
 .copyright {
   text-align: center;
@@ -889,27 +1196,6 @@ h1, h2, h3, h4 {
   }
 }
 
-@media (max-width: 992px) {
-  .about-content {
-    flex-direction: column;
-  }
-  
-  .about-text {
-    max-height: none;
-    padding-right: 0;
-    margin-bottom: 30px;
-  }
-  
-  .heads-container {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-  }
-  
-  .head-card {
-    flex: 0 0 calc(50% - 30px);
-  }
-}
 
 @media (max-width: 768px) {
   .nav-menu {
@@ -1021,18 +1307,6 @@ html {
     margin-left: 16px;
   }
 
-  /* 📌 Fix About section carousel visibility */
-  .about-image.carousel {
-    position: relative !important;
-    min-height: 300px !important;
-  }
-
-  .carousel-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 
   /* 📌 Adjust "Back to Home" button on album & admission pages */
   .back-home {
@@ -1078,78 +1352,6 @@ html {
     cursor: pointer;
     z-index: 1000;
     color: #888;
-  }
-}
-/* Makes carousel transitions smooth */
-.carousel-img {
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-
-/* === Mobile Responsive Carousel === */
-@media (max-width: 768px) {
-  .about-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .about-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .about-text, .about-image {
-    width: 100%;
-    text-align: center;
-  }
-
-  .about-text {
-    padding-right: 0;
-    width: 100%;
-  }
-
-  .about-image.carousel {
-    width: 90%;
-    height: 250px;
-    margin: 20px auto;
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-  }
-
-  .carousel-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    animation: none; /* Default state */
-  }
-
-  .carousel-img.active {
-    opacity: 1;
-    z-index: 2;
-    animation: fadeIn 1s ease-in-out;
-  }
-}
-
-/* 🔄 Animation for Carousel Fade */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -1248,6 +1450,7 @@ html {
 
 
 .admin-access {
+  background: #fff !important;
   padding: 40px 0;
   text-align: center;
 }
